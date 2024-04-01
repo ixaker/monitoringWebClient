@@ -8,12 +8,15 @@
     "build": "next build",
     "start": "next start -p 8000",
     "lint": "next lint",
-    "server": "nodemon --watch index.js"
+    "server": "nodemon --watch index.js",
+    "servstart": "node index.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.2",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "next": "^14.1.4",
     "react": "^18",
     "react-dom": "^18",
