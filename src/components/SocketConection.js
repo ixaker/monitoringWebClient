@@ -13,7 +13,7 @@ const SocketConection = () => {
 
   useEffect(() => {
     socket = io('ws://monitoring.qpart.com.ua:5000', {
-        // transport: ['websocket'],
+        transport: ['websocket'],
         extraHeaders: {
           "type": "webclient",
         },
