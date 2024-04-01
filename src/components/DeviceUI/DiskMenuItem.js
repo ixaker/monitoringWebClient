@@ -9,8 +9,6 @@ const DiskMenuItem = ({ deviceId, diskName, device, diskCrypt}) => {
     const toggleDiskMenu = () => {
         setOpenDiskMenu(!openDiskMenu);
         setModalShow(true)
-        console.log('click settings');
-        console.log(modalShow);
     };
 
     return (
@@ -23,11 +21,7 @@ const DiskMenuItem = ({ deviceId, diskName, device, diskCrypt}) => {
                 deviceId={deviceId} 
                 diskName={diskName} 
                 show={modalShow}
-                onHide={() => {
-                    setModalShow(false)
-                    console.log('setModalShow false');
-                    }
-                }
+                onHide={() => setModalShow(false)}
             />
         </div>
     );

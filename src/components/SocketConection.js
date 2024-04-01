@@ -43,10 +43,10 @@ const SocketConection = () => {
       const parsedData = JSON.parse(data);
       console.log(parsedData);
       console.log('Received message:', parsedData.payload);
-      toast.info(`Інфо: ${parsedData.payload.name || "undefined"}`, {
-        autoClose: 2000,
-        hideProgressBar: true
-      });
+      // toast.info(`Інфо: ${parsedData.payload.name || "undefined"}`, {
+      //   autoClose: 2000,
+      //   hideProgressBar: true
+      // });
       const payload = parsedData.payload;
       if (parsedData.topic === 'info') {
         dispatch(addOrUpdateDevice(payload))

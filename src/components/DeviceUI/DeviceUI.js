@@ -27,21 +27,29 @@ const DeviceUi = ({
     }) => {
 
     //control DeviceMenu
-    const [open, setOpen] = useState(false);
-
+    
+    const [modalShow, setModalShow] = React.useState(false);
 
     const toggleMenu = () => {
-        setOpen(!open);
-        console.log(open)
+        
+        setModalShow(true)
+        console.log(modalShow)
     };
 
     const toggleDiskMenu = () => {
         setOpenDiskMenu(!openDiskMenu);
+        
+        console.log(modalShow)
     };
 
     return (
         <div className="position-relative container mb-4 border rounded p-3 pb-2 bg-dark-subtle align-items-center shadow" style={{border: "2px solid red"}}>
-            { open && <DeviceMenu deviceId={device.id}/>}
+            <DeviceMenu 
+                deviceId={device.id}
+                device={device}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            />
 
             <div className='row align-items-center'>
                 <div className='col-10'>

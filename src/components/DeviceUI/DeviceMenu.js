@@ -2,8 +2,9 @@ import React from 'react';
 import './devicemenu.css'
 import { sendDataToServer } from './../../components/SocketConection';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
-const DeviceMenu = ({ deviceId }) => {
+const DeviceMenu = ({ deviceId, show, onHide, device }) => {
     
     console.log('deviceId', deviceId);
     const handleOnClick = (inputText, deviceId) => {
@@ -28,24 +29,31 @@ const MenuButton = ({name, command}) => {
         </div>
     )
 }
-
     return (
-        <div className='menu-container'>
-            <MenuButton 
-                name={'hostname'} 
-                command={'hostname'}
-            />
-            <MenuButton 
-                name={'second'} 
-                command={'hostname'}
-            />
-
-            <MenuButton 
-                name={'third'} 
-                command={'hostname'}
-            />
-            
-        </div>
+        <Modal  
+            show={show}
+            onHide={onHide}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                Компьютер {device.name}
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                    <MenuButton 
+                        name={'вимкнути'} 
+                        command={'shutdown /s /t 0'}
+                    />
+                    <MenuButton 
+                        name={'перезавантажити'} 
+                        command={'shutdown /r /t 0'}
+                    />                    
+            </Modal.Body>
+        </Modal>
+        
     );
 };
 
