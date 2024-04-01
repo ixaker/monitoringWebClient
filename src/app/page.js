@@ -4,14 +4,18 @@
 // import styles from "./page.module.css";
 // import { useSelector } from 'react-redux';
 // import { useState } from 'react';
-import SocketConection from "@/components/SocketConection";
+// import SocketConection from "@/components/SocketConection";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import DeviceInputForm from "@/components/inputForm";
 // import { FaLock, FaUnlock } from 'react-icons/fa';
 // import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 // import { GiBattery100, GiBattery50 } from "react-icons/gi";
 // import DeviceUi from "@/components/DeviceUI/DeviceUI";
+import socket from './socket'
 
+socket.on('connect', () => {
+  console.log('Connected to server!');
+});
 
 export default function Home() {
   
@@ -21,10 +25,10 @@ export default function Home() {
 
   return (
     <main className="container mx-auto py-4" style={{ maxWidth: '540px', minWidth: '320px' }}>
-      <SocketConection />
-      {/* <div className="mb-4">
+      {/* <SocketConection /> */}
+       {/* <div className="mb-4"> */}
         <h1 className="h1">Monitoring</h1>
-      </div>
+      {/*</div>
       <div className="list-group">
         {devices.map(device => (
           <DeviceUi
