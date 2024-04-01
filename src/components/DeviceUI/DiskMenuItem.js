@@ -7,8 +7,11 @@ const DiskMenuItem = ({ deviceId, diskName, device, diskCrypt}) => {
     const [modalShow, setModalShow] = React.useState(false);
 
     const toggleDiskMenu = () => {
-        setOpenDiskMenu(!openDiskMenu);
-        setModalShow(true)
+        if (device.online) {
+            setOpenDiskMenu(!openDiskMenu);
+            setModalShow(true)
+        }
+        
     };
 
     return (

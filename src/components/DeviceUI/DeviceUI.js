@@ -32,14 +32,20 @@ const DeviceUi = ({
 
     const toggleMenu = () => {
         
-        setModalShow(true)
-        console.log(modalShow)
+        if (device.online) {
+            setModalShow(true)
+            console.log(modalShow)
+        }
+        
     };
 
     const toggleDiskMenu = () => {
-        setOpenDiskMenu(!openDiskMenu);
         
-        console.log(modalShow)
+        if (device.online) {
+            setOpenDiskMenu(!openDiskMenu);
+            console.log(modalShow)
+        }
+        
     };
 
     return (
