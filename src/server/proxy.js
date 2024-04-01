@@ -10,7 +10,7 @@ const proxyMiddleware = (app) => {
 
     // Перехоплюємо WebSocket-запити та проксімуємо їх через створений проксі сервер
     app.use('/socket.io', (req, res) => {
-        proxy.web(req, res, { target: 'ws://monitoring.qpart.com.ua:5000', ws: true });
+        proxy.web(req, res, { target: 'ws://localhost:5000', ws: true });
     });
 
     app.use(

@@ -12,8 +12,8 @@ const SocketConection = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket = io('ws://monitoring.qpart.com.ua:5000', {
-        // transport: ['websocket'],
+    socket = io('wss://monitoring.qpart.com.ua:5000', {
+        transport: ['websocket'],
         extraHeaders: {
           "type": "webclient",
         },

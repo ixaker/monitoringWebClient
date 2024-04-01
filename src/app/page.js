@@ -12,7 +12,6 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { GiBattery100, GiBattery50 } from "react-icons/gi";
 import DeviceUi from "@/components/DeviceUI/DeviceUI";
 
-
 export default function Home() {
   
   const devices = useSelector(state => state.devices)
@@ -22,7 +21,7 @@ export default function Home() {
   return (
     <main className="container mx-auto py-4" style={{ maxWidth: '540px', minWidth: '320px' }}>
       <SocketConection />
-      <div className="mb-4">
+       <div className="mb-4">
         <h1 className="h1">Monitoring</h1>
       </div>
       <div className="list-group">
