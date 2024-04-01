@@ -7,8 +7,8 @@ export default function startServer() {
   // Створюємо WebSocket сервер та передаємо йому http сервер
   createWebSocketServer(server);
 
-  const PORT = process.env.PORT || 3001;
-  server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+  // const PORT = process.env.PORT || 3001;
+  // server.listen(PORT, () => {
+  //   console.log(`Server is running on port ${PORT}`);
+  // });
 }
