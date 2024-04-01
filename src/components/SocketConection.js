@@ -12,7 +12,8 @@ const SocketConection = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket = io('ws://monitoring.qpart.com.ua:5000', {
+    socket = io('wss://localhost:5000', {
+        transport: ['websocket'],
         extraHeaders: {
           "type": "webclient",
         },
@@ -61,9 +62,9 @@ const SocketConection = () => {
       
     });
 
-    
     socket.on('error', (error) => {
       console.error('WebSocket connection error:', error);
+      console.error('WebSocket connection error:', error.code);
       toast.error('Conection error', {
         autoClose: 10000,
         hideProgressBar: true
@@ -72,6 +73,8 @@ const SocketConection = () => {
 
     socket.on("connect_error", (error) => {
         console.error('Connect_error:', error.type, error);
+        console.error('Connect_error:', error.type, error.code);
+        console.error('Connect_error:', error.type, error.message);
         toast.error('Conection error', {
           autoClose: 10000,
           hideProgressBar: true
