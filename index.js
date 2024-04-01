@@ -21,8 +21,8 @@ const dev = process.env.NODE_ENV !== 'production';
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
 
-const __filename = 'monitoring.qpart.com.ua/'
-const __dirname = 'monitoring.qpart.com.ua/'
+const __filename = '/etc/letsencrypt/live/monitoring.qpart.com.ua'
+const __dirname = '/etc/letsencrypt/live/monitoring.qpart.com.ua'
 
 const domian = process.env.domian;
 
