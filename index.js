@@ -42,8 +42,8 @@ if (!fs.existsSync(envFilePath)) {
 }
 
 
-const ssl_key = path.join(domian, 'privkey.pem');
-const ssl_cert = path.join(domian, 'fullchain.pem');
+const ssl_key = path.join(__dirname, 'privkey.pem');
+const ssl_cert = path.join(__dirname, 'fullchain.pem');
 
 const httpApp = express();
 const app = express();
