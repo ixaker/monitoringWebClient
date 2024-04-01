@@ -12,9 +12,9 @@ import next from 'next';
 
 
 // Запуск WebSocket сервера
-import startServer from './src/server/socketServer.js';
+// import startServer from './src/server/socketServer.js';
 
-startServer();
+// startServer();
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -60,6 +60,11 @@ const httpsServer = https.createServer({ key: fs.readFileSync(ssl_key), cert: fs
 
 // Підключення middleware проксі
 proxy(app);
+
+httpApp.use((req, res, next) => {
+    console.log('Redirecting to HTTPS');
+    res.redirect('https://' + req.headers.host + req.url);
+});
 
 httpServer.listen(80, () => {
     console.log('HTTP server is running on port 80');
