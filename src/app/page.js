@@ -19,11 +19,8 @@ export default function Home() {
   console.log(devices)
 
   return (
-    <main className="container mx-auto py-4" style={{ maxWidth: '540px', minWidth: '320px' }}>
+    <main className="container mx-auto py-4" style={{ maxWidth: '576px', minWidth: '320px' }}>
       <SocketConection />
-       <div className="mb-4">
-        <h1 className="h1">Monitoring</h1>
-      </div>
       <div className="list-group">
         {devices.map(device => (
           <DeviceUi

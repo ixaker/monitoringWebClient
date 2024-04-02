@@ -22,10 +22,10 @@ const SocketConection = () => {
     
     socket.on('connect', () => {
       console.log('Connected to WebSocket server');
-      toast.success('Connected', {
-        autoClose: 1000,
-        hideProgressBar: true
-      });
+      // toast.success('Connected', {
+      //   autoClose: 1000,
+      //   hideProgressBar: true
+      // });
     });
 
     // отримання повідомлень
@@ -40,7 +40,7 @@ const SocketConection = () => {
     });
 
     socket.on('webclient', (data) => {
-      console.log('webclient', data);
+      // console.log('webclient', data);
       const parsedData = JSON.parse(data);
       console.log(parsedData);
       console.log('Received message:', parsedData.payload);
@@ -54,39 +54,38 @@ const SocketConection = () => {
       }
       if (parsedData.topic === 'result') {
         console.log('result toast')
-        toast.success(`Результат: ${parsedData.payload.result || "undefined"}`, {
-          autoClose: 1000,
-          hideProgressBar: true
-        });
+        // toast.success(`Результат: ${parsedData.payload.result || "undefined"}`, {
+        //   autoClose: 1000,
+        //   hideProgressBar: true
+        // });
       }
-      
     });
 
     socket.on('error', (error) => {
       console.error('WebSocket connection error:', error);
       console.error('WebSocket connection error:', error.code);
-      toast.error('Conection error', {
-        autoClose: 10000,
-        hideProgressBar: true
-      });
+      // toast.error('Conection error', {
+      //   autoClose: 10000,
+      //   hideProgressBar: true
+      // });
     });
 
     socket.on("connect_error", (error) => {
         console.error('Connect_error:', error.type, error);
         console.error('Connect_error:', error.type, error.code);
         console.error('Connect_error:', error.type, error.message);
-        toast.error('Conection error', {
-          autoClose: 10000,
-          hideProgressBar: true
-        });
+        // toast.error('Conection error', {
+        //   autoClose: 10000,
+        //   hideProgressBar: true
+        // });
     });
 
     return () => {
       socket.disconnect(); 
-      toast.warning('Disconnect', {
-        autoClose: 3000,
-        hideProgressBar: true
-      });
+      // toast.warning('Disconnect', {
+      //   autoClose: 3000,
+      //   hideProgressBar: true
+      // });
     };
   }, []);
 
@@ -100,6 +99,7 @@ const SocketConection = () => {
 export default SocketConection;
 
 export const sendDataToServer = ({inputText, deviceId}) => {
+  console.log('sendDataToServer')
   console.log(inputText);
   console.log(deviceId);
   const data = {
