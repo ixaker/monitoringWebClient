@@ -39,6 +39,10 @@ const SocketConection = () => {
       // const payload = parsedData.payload;
     });
 
+    socket.on('info', (data) => {
+      console.log('soketon info', data);
+    });
+
     socket.on('webclient', (data) => {
       // console.log('webclient', data);
       const parsedData = JSON.parse(data);
@@ -109,6 +113,7 @@ export const sendDataToServer = ({inputText, deviceId}) => {
       command: inputText,
     }
   };
+
   console.log(data);
   
   if (socket && socket.connected) {

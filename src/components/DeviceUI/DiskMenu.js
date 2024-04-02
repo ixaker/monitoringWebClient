@@ -6,6 +6,9 @@ import Modal from 'react-bootstrap/Modal';
 import ButtonAndPassword from './ButtonAndPassword'
 import ConfirmationModal from '../confirmationModal/confirmationModal';
 
+import UnlockDisk from '../DiskActions/UnlockDisk';
+import ActivationOff from '../DiskActions/ActivationOff';
+import ActivationOn from '../DiskActions/ActivationOn';
 
 const DiskMenu = ({ diskName, deviceId, show, onHide, device, setModalShow, onHidePrevious}) => {
     
@@ -45,6 +48,9 @@ return (
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        {/* <UnlockDisk />
+        <ActivationOff />
+        <ActivationOn /> */}
             {thisDisk.locked
                 ? <ButtonAndPassword 
                     name={'розблокувати диск'} 

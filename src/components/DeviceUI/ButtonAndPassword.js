@@ -3,32 +3,11 @@ import { Form, Button } from 'react-bootstrap'; // Припускаю, що ви
 import { sendDataToServer } from '../SocketConection';
 
 
-const ButtonAndPassword = ({ name, deviceId, diskName, commandKey, input, password, setPassword, inputText, handleOnClick }) => {
+const ButtonAndPassword = ({ name, input, password, setPassword, inputText, handleOnClick }) => {
     
-    const [showConfirmation, setShowConfirmation] = useState(false);
-
-    const createCommandsArray = (password, diskName, key) => {
-        const commands = {
-            "enable": `Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`,
-            "disable": `Disable-BitLocker -MountPoint "${diskName}"`,
-            "unlock": `Unlock-BitLocker -MountPoint "${diskName}" -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force)`
-        };
-        return commands[key];
-    };
-
     const isPasswordValid = input ? password.length >= 8 : true;
     console.log(input)
     console.log(isPasswordValid)
-
-    // const inputText = createCommandsArray(password, diskName, commandKey);
-    // const inputText = `Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`;
-    
-
-    const handleConfirm = () => {
-        sendDataToServer({ inputText, deviceId });
-        setShowConfirmation(false);
-        onHide()
-    };
 
     return (
         

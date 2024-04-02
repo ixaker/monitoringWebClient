@@ -13,7 +13,6 @@ const DeviceMenu = ({ deviceId, show, onHide, device }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [inputText, setInputText] = useState('')
 
-    console.log('deviceId', deviceId);
     const handleOnClick = (command) => {
         setShowConfirmation(true)
         setInputText(command)
