@@ -3,9 +3,9 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const MyInput = ({type, value, onChange, isPasswordValid }) => {
+const MyInput = ({type, value, onChange, isPasswordValid, placeholderText, errorMessage }) => {
 
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(true);
     // function for visibly password handle
     // const togglePasswordVisibility = () => {
     //     setShowPassword(!showPassword);
@@ -22,15 +22,22 @@ const MyInput = ({type, value, onChange, isPasswordValid }) => {
                 type={showPassword ? 'text' : 'password'}
                 value={value}
                 onChange={onChange}
-                placeholder="введіть пароль (не менше 8 символів)"
+                placeholder={placeholderText || "введіть пароль (не менше 8 символів)"}
                 autoComplete="off"
+                isValid={isPasswordValid === true}
+                isInvalid={isPasswordValid === false}
+                // "введіть пароль (не менше 8 символів)"
             />
             {/* elements for password visibly */}
-            {/* <InputGroup.Append>
-                <InputGroup.Text >
-                    <FontAwesomeIcon icon={faEye} />
-                </InputGroup.Text>
-            </InputGroup.Append> */}
+            <span className="input-group-text" onClick={() => setShowPassword(!showPassword)}>
+                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} className="fa-lg" />
+            </span>
+            {/* Feedback for error message */}
+            {errorMessage && (
+                <Form.Control.Feedback type="invalid">
+                    {errorMessage}
+                </Form.Control.Feedback>
+            )}
         </InputGroup>
 
     );

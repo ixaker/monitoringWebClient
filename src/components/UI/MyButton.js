@@ -16,7 +16,7 @@ const MyButton = ({
                     height: "50px"
                 }}
                 disabled={disabled}
-                onclick={handleOnClick}
+                onClick={handleOnClick}
             > 
                 {buttonText} 
             </Button>

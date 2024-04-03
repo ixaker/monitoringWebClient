@@ -48,46 +48,55 @@ return (
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        {/* <UnlockDisk
-            deviceId={deviceId}
-        /> */}
-        <ActivationOff />
-        <ActivationOn />
             {thisDisk.locked
-                ? <ButtonAndPassword 
-                    name={'розблокувати диск'} 
+                ? <UnlockDisk
                     deviceId={deviceId}
-                    diskName={diskName}
-                    commandKey={'unlock'}
-                    input={true}
-                    password={password}
-                    setPassword={setPassword}
-                    inputText={`Unlock-BitLocker -MountPoint "${diskName}" -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force)`}
-                    handleOnClick={handleOnClick}
+                    onHidePrevious={onHidePrevious}
                 />
+                // <ButtonAndPassword 
+                //     name={'розблокувати диск'} 
+                //     deviceId={deviceId}
+                //     diskName={diskName}
+                //     commandKey={'unlock'}
+                //     input={true}
+                //     password={password}
+                //     setPassword={setPassword}
+                //     inputText={`Unlock-BitLocker -MountPoint "${diskName}" -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force)`}
+                //     handleOnClick={handleOnClick}
+                // />
                 : thisDisk.crypt
-                    ? <ButtonAndPassword 
-                        name={'вимкнути шифрування'} 
+                    ? <ActivationOff 
                         deviceId={deviceId}
+                        onHidePrevious={onHidePrevious}
                         diskName={diskName}
-                        commandKey={'disable'} 
-                        input={false}
-                        password={password}
-                        setPassword={setPassword}
-                        inputText={`Disable-BitLocker -MountPoint "${diskName}"`}
-                        handleOnClick={handleOnClick}
-                    />
-                    : <ButtonAndPassword 
-                        name={'активувати шифрування'} 
+                    /> 
+                    // <ButtonAndPassword 
+                    //     name={'вимкнути шифрування'} 
+                    //     deviceId={deviceId}
+                    //     diskName={diskName}
+                    //     commandKey={'disable'} 
+                    //     input={false}
+                    //     password={password}
+                    //     setPassword={setPassword}
+                    //     inputText={`Disable-BitLocker -MountPoint "${diskName}"`}
+                    //     handleOnClick={handleOnClick}
+                    // />
+                    : <ActivationOn 
                         deviceId={deviceId}
+                        onHidePrevious={onHidePrevious}
                         diskName={diskName}
-                        commandKey={'enable'}
-                        input={true}
-                        password={password}
-                        setPassword={setPassword}
-                        inputText={`Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`}
-                        handleOnClick={handleOnClick}
                     />
+                    // <ButtonAndPassword 
+                    //     name={'активувати шифрування'} 
+                    //     deviceId={deviceId}
+                    //     diskName={diskName}
+                    //     commandKey={'enable'}
+                    //     input={true}
+                    //     password={password}
+                    //     setPassword={setPassword}
+                    //     inputText={`Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`}
+                    //     handleOnClick={handleOnClick}
+                    // />
             }
         </Modal.Body>
     </Modal>

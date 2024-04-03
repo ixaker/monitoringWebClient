@@ -105,7 +105,7 @@ export const sendDataToServer = ({inputText, deviceId}) => {
   console.log(deviceId);
   const data = {
     topic: "command",
-    command: inputText,
+    payload: inputText,
     id: deviceId
   };
 
