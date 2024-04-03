@@ -18,8 +18,8 @@ type:
     
     [Service]
     Type=simple
-    WorkingDirectory=/root/dev/monitoringWebClient
-    ExecStart=/usr/bin/node npm start
+    WorkingDirectory=/root/dew/monitoringWebClient
+    ExecStart=/usr/bin/node index.js
     Restart=always
     RestartSec=10
     

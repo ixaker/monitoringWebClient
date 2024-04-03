@@ -50,54 +50,37 @@ const ssl_cert = path.join(__dirname, 'fullchain.pem');
 
 
 const httpApp = express();
-const app = express();
+const httpsApp = express(); // Створення express для HTTPS
 
 console.log(ssl_key)
 console.log(ssl_cert)
 
 const httpServer = http.createServer(httpApp);
-const httpsServer = https.createServer({ key: fs.readFileSync(ssl_key), cert: fs.readFileSync(ssl_cert)}, app);
+const httpsServer = https.createServer({ key: fs.readFileSync(ssl_key), cert: fs.readFileSync(ssl_cert)}, httpsApp); // Використання express для HTTPS
 
 // Підключення middleware проксі
-proxy(app);
+// proxy(app);
 
 httpApp.use((req, res, next) => {
     console.log('Redirecting to HTTPS');
     res.redirect('https://' + req.headers.host + req.url);
 });
 
-const staticFilesPath = path.join(__dirname, '../out');
-httpApp.use(express.static(staticFilesPath));
+const staticFilesPath = '/root/dew/monitoringWebClient/public';
+
+// Додайте middleware express.static() до вашого сервера HTTPS
+httpsApp.use(express.static(staticFilesPath));
+
+
+httpApp.get('/', (req, res) => {
+    res.sendFile(path.join(staticFilesPath, 'index.html'));
+});
 
 httpServer.listen(80, () => {
     console.log('HTTP server is running on port 80');
 });
 
+// Слухайте порт 443 для HTTPS
 httpsServer.listen(443, () => {
     console.log('Secure server is running on port 443');
 });
-
-
-// conection with nextApp
-// nextApp.prepare().then(() => {
-//     httpApp.get('*', (req, res) => {
-//         return handle(req, res);
-//     });
-
-//     app.get('*', (req, res) => {
-//         return handle(req, res);
-//     });
-
-//     httpApp.use((req, res, next) => {
-//         console.log('redirecting to HTTPS');
-//         res.redirect('https://' + req.headers.host + req.url);
-//     });
-    
-//     httpServer.listen(80, () => {
-//         console.log('HTTP server is running on port 80');
-//     });
-
-//     httpsServer.listen(443, () => {
-//         console.log('Secure server is running on port 443');
-//     });
-// });
