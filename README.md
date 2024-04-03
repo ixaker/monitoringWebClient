@@ -1,13 +1,3 @@
-topic:
-- command
-
-type:
-- device
-- webclient
-
-
-
-
 <h3>Создание службы для приложения:</h3>
 
     sudo nano /etc/systemd/system/monitoringWebClient.service
