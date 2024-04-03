@@ -10,7 +10,7 @@ import UnlockDisk from '../DiskActions/UnlockDisk';
 import ActivationOff from '../DiskActions/ActivationOff';
 import ActivationOn from '../DiskActions/ActivationOn';
 
-const DiskMenu = ({ diskName, deviceId, show, onHide, device, setModalShow, onHidePrevious}) => {
+const DiskMenu = ({ diskName, deviceId, show, onHide, device, setModalShow, onHidePrevious, setLoaders}) => {
     
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [password, setPassword] = useState('');
@@ -19,7 +19,7 @@ const DiskMenu = ({ diskName, deviceId, show, onHide, device, setModalShow, onHi
     const handleConfirm = (text) => {
         console.log('handleConfirm in diskMenu')
         console.log(inpText)
-        sendDataToServer({ inputText: inpText, deviceId });
+        sendDataToServer({ inputText: inpText, deviceId, setLoaders });
         setShowConfirmation(false);
         onHidePrevious()
     };
@@ -69,6 +69,7 @@ return (
                         deviceId={deviceId}
                         onHidePrevious={onHidePrevious}
                         diskName={diskName}
+                        device={device}
                     /> 
                     // <ButtonAndPassword 
                     //     name={'вимкнути шифрування'} 
@@ -85,6 +86,7 @@ return (
                         deviceId={deviceId}
                         onHidePrevious={onHidePrevious}
                         diskName={diskName}
+                        setLoaders={setLoaders}
                     />
                     // <ButtonAndPassword 
                     //     name={'активувати шифрування'} 

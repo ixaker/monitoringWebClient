@@ -3,7 +3,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const MyInput = ({type, value, onChange, isPasswordValid, placeholderText, errorMessage }) => {
+const MyInput = ({type, value, onChange, isPasswordValid, placeholderText, errorMessage, autoFocus }) => {
 
     const [showPassword, setShowPassword] = useState(false);
     // function for visibly password handle
@@ -26,7 +26,7 @@ const MyInput = ({type, value, onChange, isPasswordValid, placeholderText, error
                 autoComplete="off"
                 isValid={isPasswordValid === true}
                 isInvalid={isPasswordValid === false}
-                // "введіть пароль (не менше 8 символів)"
+                autoFocus={autoFocus}
             />
             {/* elements for password visibly */}
             <span className="input-group-text" onClick={() => setShowPassword(!showPassword)}>

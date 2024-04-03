@@ -31,6 +31,7 @@ const UnlockDisk = ({ deviceId, diskName, onHidePrevious }) => {
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     isPasswordValid={isPasswordValid}
+                    autoFocus={true}
                 />
                 <MyButton 
                     buttonText="Розблокувати диск"

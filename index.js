@@ -66,7 +66,7 @@ httpApp.use((req, res, next) => {
     res.redirect('https://' + req.headers.host + req.url);
 });
 
-const staticFilesPath = path.join(__dirname, '../out');
+const staticFilesPath = '/root/dew/monitoringWebClient/out';
 httpApp.use(express.static(staticFilesPath));
 
 httpServer.listen(80, () => {

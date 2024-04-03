@@ -5,7 +5,7 @@ import MyInput from '../UI/MyInput';
 import ConfirmationModal from '../confirmationModal/confirmationModal';
 import { sendDataToServer } from '../SocketConection';
 
-const ActivationOn = ({ deviceId, diskName, onHidePrevious }) => {
+const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
     
     const [password, setPassword] = useState('text');
     const [value, setValue] = useState('')
@@ -23,6 +23,11 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious }) => {
         sendDataToServer({ inputText, deviceId });
         setShowConfirmation(false);
         onHidePrevious() //close parent modal
+        setLoaders(prevState => ({
+            ...prevState,
+            [deviceId]: true
+        }));
+      
     };
 
     const handleOnClick = (inputText) => {
@@ -36,6 +41,7 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious }) => {
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     isPasswordValid={isPasswordValid}
+                    autoFocus={true}
                 />       
                 <MyInput 
                     value={secondValue}
@@ -54,6 +60,8 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious }) => {
                 show={showConfirmation}
                 onHide={() => setShowConfirmation(false)}
                 onConfirm={() => handleConfirm()}
+                message={`Ви хочете зашифрувати диск ${diskName.slice(0, -1)}. Переконайтесь, що пароль для шифрування надійно збережений.`}
+                title='Підтвердження шифрування'
             />
         </>
     );

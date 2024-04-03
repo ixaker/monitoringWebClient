@@ -4,7 +4,7 @@ import MyButton from '../UI/MyButton';
 import ConfirmationModal from '../confirmationModal/confirmationModal';
 import { sendDataToServer } from '../SocketConection';
 
-const ActivationOff = ({deviceId, diskName, onHidePrevious}) => {
+const ActivationOff = ({deviceId, diskName, onHidePrevious, device}) => {
 
     const [showConfirmation, setShowConfirmation] = useState(false);
     const inputText=`Disable-BitLocker -MountPoint "${diskName}"`
@@ -31,6 +31,8 @@ const ActivationOff = ({deviceId, diskName, onHidePrevious}) => {
                     show={showConfirmation}
                     onHide={() => setShowConfirmation(false)}
                     onConfirm={() => handleConfirm()}
+                    title="Розблокувати диск"
+                    message={`Ви намагаєтесь розблокувати диск ${diskName.slice(0, -1)} на компьютері ${device.name}`}
             />
         </>
     );

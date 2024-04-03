@@ -13,31 +13,34 @@ import { GiBattery100, GiBattery50 } from "react-icons/gi";
 import DeviceUi from "@/components/DeviceUI/DeviceUI";
 import AppLoader from './../components/Loader/AppLoader'
 import TurnOffAll from "@/components/TurnOffAll/TurnOffAll";
+import MyButton from "@/components/UI/MyButton";
+import { sendTelegram } from "@/components/SocketConection";
 
 export default function Home() {
   
   const devices = useSelector(state => state.devices)
-  const [inputText, setInputText] = useState('');
-
   
-
   return (
     <main className="container mx-auto py-4" style={{ maxWidth: '576px', minWidth: '320px' }}>
-      <SocketConection />
-      <AppLoader show={devices.length === 0} />
-      <div className="list-group">
-        <TurnOffAll />
-        {devices.map(device => (
-          <DeviceUi
-            key={device.id}
-            deviceName={device.name}
-            ip={device.ip}
-            discs={device.disk}
-            deviceId={device.id}
-            device={device}
-          />
-        ))}
-      </div>
+      <SocketConection/>
+      {devices.length === 0 ? (
+        <AppLoader show={devices.length === 0}/>
+      ) : (
+        <div className="list-group">
+          <TurnOffAll />
+          <MyButton buttonText={'Відправити повідомлення в телеграм'} handleOnClick={sendTelegram}/>
+          {devices.map(device => (
+            <DeviceUi
+              key={device.id}
+              deviceName={device.name}
+              ip={device.ip}
+              discs={device.disk}
+              deviceId={device.id}
+              device={device}
+            />
+          ))}
+        </div>
+      )}
     </main>
 
   );

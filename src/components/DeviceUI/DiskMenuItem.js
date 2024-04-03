@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DiskMenu from './DiskMenu';
 import { AiOutlineSetting } from "react-icons/ai";
 
-const DiskMenuItem = ({ deviceId, diskName, device, diskCrypt}) => {
+const DiskMenuItem = ({ deviceId, diskName, device, diskCrypt, setLoaders}) => {
     // const [openDiskMenu, setOpenDiskMenu] = useState(false)
     const [modalShow, setModalShow] = React.useState(false);
     const toggleDiskMenu = () => {
@@ -29,6 +29,7 @@ const DiskMenuItem = ({ deviceId, diskName, device, diskCrypt}) => {
                 onHidePrevious={hideModal}
                 setModalShow={setModalShow}
                 onHide={() => setModalShow(false)}
+                setLoaders={setLoaders}
             />
         </div>
     );

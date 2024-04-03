@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import ConfirmationModal from '../confirmationModal/confirmationModal';
-
+import { sendTurnOffAll } from '../SocketConection';
 
 const TurnOffAll = () => {
     
@@ -14,11 +14,10 @@ const TurnOffAll = () => {
         setShowConfirmation(true);
     };
 
-    
-    
     const handleConfirm = () => {
         setShowConfirmation(false);
         console.log('вимкнути всі компьютери');
+        sendTurnOffAll();
     }
 
     
@@ -29,7 +28,6 @@ const TurnOffAll = () => {
                 size="lg"
                 onClick={handleTurnOffAll}
                 className='mb-4 d-flex flex-column align-items-center'
-                onClick={handleTurnOffAll}
             >
                 <span className='mb-2'>
                     Вимкнути всі пристрої
@@ -47,6 +45,8 @@ const TurnOffAll = () => {
                 show={showConfirmation}
                 onHide={() => setShowConfirmation(false)}
                 onConfirm={handleConfirm}
+                title="Вимкнути всі пристрої?"
+                message="Ви намагаєтесь вимкнути всі компьютери. Після включення вони будуть зашифровані. Ви точно хочете виконати цю операцію? "
             />
         </>
     );

@@ -8,16 +8,19 @@ import RAM from './../RAM/RAM';
 import Online from './Online';
 import DeviceMenu from './DeviceMenu';
 import DiskMenuItem from './DiskMenuItem';
+import NicknameInput from '../DiskActions/NicknameInput';
+import { sendNickToServer } from '../SocketConection';
 
 // icons
 import { GoDotFill } from "react-icons/go";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineSetting } from "react-icons/ai";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FaLock, FaUnlock } from 'react-icons/fa';
-
+import { CiEdit } from "react-icons/ci";
+import { GiConfirmed } from "react-icons/gi";
 // loader
 import Loader from '../Loader/Loader';
-
 import './deviceui.css'
 // класний колір шрифта #225e99
 
@@ -26,12 +29,26 @@ const DeviceUi = ({
         ip,
         discs,
         deviceId,
-        device
+        device,
+        
     }) => {
 
-    //control DeviceMenu
-    
     const [modalShow, setModalShow] = React.useState(false);
+    const [loaders, setLoaders] = useState({});
+    const [edit, setEdit] = useState(false)
+    const [nick, setNick] = useState('')
+
+    const handleEdit = () => {
+        setEdit(true)
+        setNick(device.nickname)
+    }
+
+    const handleEditEnd = ({nickName, deviceId}) => {
+        setEdit(false)
+        console.log(nick)
+        console.log(device.id)
+        sendNickToServer({ nickName: nick, deviceId: device.id });
+    }
 
     const toggleMenu = () => {
         
@@ -63,15 +80,37 @@ const DeviceUi = ({
             <div className='row align-items-center'>
                 <div className='col-10'>
                     <h3 className="h4 mb-2 align-item-center ">
-                        {device.online
-                            ? <GoDotFill style={{color: 'green', margin: '0 0 3px 0'}} />
-                            : <GoDotFill style={{color: 'grey', margin: '0 0 3px 0'}}/>
-                        }
                         {"  "}
-                        {device.online
-                            ? <>{deviceName}</>
-                            : <span style={{color: 'grey'}}>{deviceName}</span>
-                        }
+                        {device.online ? (
+                            <>
+                                {edit ? (
+                                    <>
+                                        <NicknameInput
+                                            type="text"
+                                            value={nick}
+                                            onChange={(e) => setNick(e.target.value)}
+                                            onBlur={handleEditEnd}
+                                            autoFocus
+                                            placeholderText=""
+                                            handleEditEnd={handleEditEnd}
+                                        />
+                                        
+                                    </>
+                                ) : (
+                                    <>
+                                        <GoDotFill style={{color: 'green', margin: '0 0 3px 0'}} />
+                                        {deviceName} - {device.nickname} -{' '}
+                                        <CiEdit onClick={handleEdit} />
+                                    </>
+                                )}
+                            </>
+                    ) : (
+                        <>
+                            <GoDotFill style={{color: 'grey', margin: '0 0 3px 0'}}/>
+                            <span style={{ color: 'grey' }}>{deviceName}</span>
+                        </>
+                        
+                    )}
                     </h3>
                 </div>
                 <div className='col-2 text-end'>
@@ -122,10 +161,12 @@ const DeviceUi = ({
                             </span>
                         </div>
                         <div className='col-2 text-start p-0'>
-                            {/* <Loader /> */}
+                        {Object.keys(loaders).map(diskId => (
+                            loaders[diskId] ? <Loader key={diskId} /> : null
+                        ))}
                         </div>
                         <div className='col-1 text-end p-0'>
-                        <DiskMenuItem key={index} deviceId={deviceId} diskName={disk.mounted} device={device} diskCrypt={disk.crypt}/>
+                        <DiskMenuItem key={index} deviceId={deviceId} diskName={disk.mounted} device={device} diskCrypt={disk.crypt} setLoader={setLoaders}/>
 
                         </div>
                     </div>

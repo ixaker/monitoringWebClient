@@ -4,6 +4,10 @@ const initialDevices = [
     
 ];
 
+const saveStateToLocalStorage = (state) => {
+    localStorage.setItem('devices', JSON.stringify(state));
+  };
+
 const devicesSlice = createSlice({
         name: 'devices',
         initialState: initialDevices,
@@ -12,6 +16,7 @@ const devicesSlice = createSlice({
                 const newDevice = action.payload;
                 const existingDeviceIndex = state.findIndex(device => device.id === newDevice.id);
                 
+                let updatedState
                 if (existingDeviceIndex !== -1) {
                     console.log('Update device in store');
                     console.log(newDevice.id);
@@ -23,6 +28,10 @@ const devicesSlice = createSlice({
                     console.log('Add device in store');
                     return [...state, newDevice];
                 }
+
+                saveStateToLocalStorage(updatedState);
+
+                return updatedState;
             },
         },
     });

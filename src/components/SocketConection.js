@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 let socket;
 
-const SocketConection = () => {
+const SocketConection = ({setLoaders}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -101,14 +101,12 @@ export default SocketConection;
 
 export const sendDataToServer = ({inputText, deviceId}) => {
   console.log('sendDataToServer')
-  console.log(inputText);
-  console.log(deviceId);
   const data = {
     topic: "command",
     payload: inputText,
     id: deviceId
   };
-
+  
   console.log(data);
   
   if (socket && socket.connected) {
@@ -118,3 +116,45 @@ export const sendDataToServer = ({inputText, deviceId}) => {
       console.error('Socket is not connected');
   }
 };
+
+export const sendNickToServer = ({nickName, deviceId}) => {
+  console.log('sendNickToServer')
+  const data = {
+    topic: "nickName",
+    payload: nickName,
+    id: deviceId
+  };
+  
+  console.log(data);
+  
+  if (socket && socket.connected) {
+      socket.emit('nickName', data);
+      console.log('повідомлення відправлено');
+  } else {
+      console.error('Socket is not connected');
+  }
+};
+
+export const sendTurnOffAll = () => {
+    console.log('sendTurnOffAll')
+
+    if (socket && socket.connected) {
+        socket.emit('disable', {});
+        console.log('повідомлення відправлено');
+    } else {
+        console.error('Socket is not connected');
+    }  
+}
+
+export const sendTelegram = () => {
+  console.log('sendTelegram')
+
+  if (socket && socket.connected) {
+      socket.emit('telegram', 'Telegram message from web client');
+      console.log('повідомлення відправлено');
+  } else {
+      console.error('Socket is not connected');
+  }  
+}
+
+

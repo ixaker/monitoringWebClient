@@ -22,7 +22,8 @@ const DeviceMenu = ({ deviceId, show, onHide, device }) => {
         console.log('sendDataToServer from deviceMenu');
         setShowConfirmation(false);
         onHide();
-        sendDataToServer({inputText, deviceId});
+        console.log('sendDataToServer', inputText)
+        // sendDataToServer({inputText, deviceId});
     }
 
 //     const commands = [
