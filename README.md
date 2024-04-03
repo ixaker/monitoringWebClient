@@ -1,13 +1,3 @@
-topic:
-- command
-
-type:
-- device
-- webclient
-
-
-
-
 <h3>Создание службы для приложения:</h3>
 
     sudo nano /etc/systemd/system/monitoringWebClient.service
@@ -18,8 +8,8 @@ type:
     
     [Service]
     Type=simple
-    WorkingDirectory=/root/dev/monitoringWebClient
-    ExecStart=/usr/bin/node npm start
+    WorkingDirectory=/root/dew/monitoringWebClient
+    ExecStart=/usr/bin/node index.js
     Restart=always
     RestartSec=10
     

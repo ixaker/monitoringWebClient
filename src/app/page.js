@@ -28,7 +28,7 @@ export default function Home() {
       ) : (
         <div className="list-group">
           <TurnOffAll />
-          <MyButton buttonText={'Відправити повідомлення в телеграм'} handleOnClick={sendTelegram}/>
+          {/* <MyButton buttonText={'Відправити повідомлення в телеграм'} handleOnClick={sendTelegram}/> */}
           {devices.map(device => (
             <DeviceUi
               key={device.id}
