@@ -15,6 +15,9 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FaLock, FaUnlock } from 'react-icons/fa';
 
+// loader
+import Loader from '../Loader/Loader';
+
 import './deviceui.css'
 // класний колір шрифта #225e99
 
@@ -98,7 +101,7 @@ const DeviceUi = ({
                         <div className='col-3 p-0 '>
                             <span className="h4">Диск {disk.mounted}</span>
                         </div>
-                        <div className='col-7 text-start p-0'>
+                        <div className='col-6 text-start p-0'>
                             <span className=""> 
                                 <span className={disk.crypt ? 'text-dark' : 'text-success'}>
                                     {disk.crypt 
@@ -118,7 +121,10 @@ const DeviceUi = ({
                             
                             </span>
                         </div>
-                        <div className='col-2 text-end p-0'>
+                        <div className='col-2 text-start p-0'>
+                            {/* <Loader /> */}
+                        </div>
+                        <div className='col-1 text-end p-0'>
                         <DiskMenuItem key={index} deviceId={deviceId} diskName={disk.mounted} device={device} diskCrypt={disk.crypt}/>
 
                         </div>

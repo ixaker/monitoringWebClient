@@ -2,49 +2,45 @@ import React , {useState} from 'react';
 import { useSelector } from 'react-redux';
 import './devicemenu.css'
 import { sendDataToServer } from './../../components/SocketConection';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import ConfirmationModal from '../confirmationModal/confirmationModal';
 import ButtonAndPassword from './ButtonAndPassword'
+import ConfirmationModal from '../confirmationModal/confirmationModal';
 
+import UnlockDisk from '../DiskActions/UnlockDisk';
+import ActivationOff from '../DiskActions/ActivationOff';
+import ActivationOn from '../DiskActions/ActivationOn';
 
-const DiskMenu = ({ diskName, deviceId, show, onHide, device}) => {
+const DiskMenu = ({ diskName, deviceId, show, onHide, device, setModalShow, onHidePrevious}) => {
     
-    const [confirmModalShow, setConfirmModalShow] = useState(false);
-    const handleConfirmation = () => {
-        // Показати модальне вікно підтвердження
-        setConfirmModalShow(true);
-    };
-    const handleOperationConfirmation = () => {
-        // Виконайте операцію тут
-        console.log('Операція підтверджена');
-        // Після виконання операції ховаємо модальне вікно підтвердження
-        setConfirmModalShow(false);
-        // Закриваємо основне модальне вікно
-        onHide();
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [password, setPassword] = useState('');
+    const [inpText, setInpText] = useState('')
+    
+    const handleConfirm = (text) => {
+        console.log('handleConfirm in diskMenu')
+        console.log(inpText)
+        sendDataToServer({ inputText: inpText, deviceId });
+        setShowConfirmation(false);
+        onHidePrevious()
     };
 
     const devices = useSelector(state => state.devices)
     const thisDevice = devices.find(device => device.id === deviceId);
     const thisDisk = thisDevice.disk.find(disk => disk.mounted === diskName)
 
-    const handleOnClick = (inputText, deviceId) => {
-        console.log('sendDataToServer from deviceMenu');
-
-        sendDataToServer({inputText, deviceId})
+    const handleOnClick = (inputText) => {
+        setShowConfirmation(true)
+        setInpText(inputText);
     }
-
-
 
 return (
     <>
     <Modal  
         show={show}
         onHide={onHide}
-        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className='modal-fullscreen-sm-down' 
     >
         <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
@@ -53,38 +49,63 @@ return (
         </Modal.Header>
         <Modal.Body>
             {thisDisk.locked
-                ? <ButtonAndPassword 
-                    name={'розблокувати диск'} 
+                ? <UnlockDisk
                     deviceId={deviceId}
-                    diskName={diskName}
-                    commandKey={'unlock'}
-                    input={true}
+                    onHidePrevious={onHidePrevious}
                 />
+                // <ButtonAndPassword 
+                //     name={'розблокувати диск'} 
+                //     deviceId={deviceId}
+                //     diskName={diskName}
+                //     commandKey={'unlock'}
+                //     input={true}
+                //     password={password}
+                //     setPassword={setPassword}
+                //     inputText={`Unlock-BitLocker -MountPoint "${diskName}" -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force)`}
+                //     handleOnClick={handleOnClick}
+                // />
                 : thisDisk.crypt
-                    ? <ButtonAndPassword 
-                        name={'вимкнути шифрування'} 
+                    ? <ActivationOff 
                         deviceId={deviceId}
+                        onHidePrevious={onHidePrevious}
                         diskName={diskName}
-                        commandKey={'disable'} 
-                        input={false}
-                    />
-                    : <ButtonAndPassword 
-                        name={'активувати шифрування'} 
+                    /> 
+                    // <ButtonAndPassword 
+                    //     name={'вимкнути шифрування'} 
+                    //     deviceId={deviceId}
+                    //     diskName={diskName}
+                    //     commandKey={'disable'} 
+                    //     input={false}
+                    //     password={password}
+                    //     setPassword={setPassword}
+                    //     inputText={`Disable-BitLocker -MountPoint "${diskName}"`}
+                    //     handleOnClick={handleOnClick}
+                    // />
+                    : <ActivationOn 
                         deviceId={deviceId}
+                        onHidePrevious={onHidePrevious}
                         diskName={diskName}
-                        commandKey={'enable'}
-                        input={true}
                     />
+                    // <ButtonAndPassword 
+                    //     name={'активувати шифрування'} 
+                    //     deviceId={deviceId}
+                    //     diskName={diskName}
+                    //     commandKey={'enable'}
+                    //     input={true}
+                    //     password={password}
+                    //     setPassword={setPassword}
+                    //     inputText={`Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${password}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`}
+                    //     handleOnClick={handleOnClick}
+                    // />
             }
         </Modal.Body>
     </Modal>
     <ConfirmationModal
-        show={confirmModalShow}
-        onHide={() => setConfirmModalShow(false)}
-        onConfirm={handleOnClick}
-    />
+        show={showConfirmation}
+        onHide={() => setShowConfirmation(false)}
+        onConfirm={() => handleConfirm()}
+     />
     </>
-);
-};
+)};
 
 export default DiskMenu;

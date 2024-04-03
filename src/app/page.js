@@ -11,20 +11,22 @@ import { FaLock, FaUnlock } from 'react-icons/fa';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { GiBattery100, GiBattery50 } from "react-icons/gi";
 import DeviceUi from "@/components/DeviceUI/DeviceUI";
+import AppLoader from './../components/Loader/AppLoader'
+import TurnOffAll from "@/components/TurnOffAll/TurnOffAll";
 
 export default function Home() {
   
   const devices = useSelector(state => state.devices)
   const [inputText, setInputText] = useState('');
-  console.log(devices)
+
+  
 
   return (
-    <main className="container mx-auto py-4" style={{ maxWidth: '540px', minWidth: '320px' }}>
+    <main className="container mx-auto py-4" style={{ maxWidth: '576px', minWidth: '320px' }}>
       <SocketConection />
-       <div className="mb-4">
-        <h1 className="h1">Monitoring</h1>
-      </div>
+      <AppLoader show={devices.length === 0} />
       <div className="list-group">
+        <TurnOffAll />
         {devices.map(device => (
           <DeviceUi
             key={device.id}

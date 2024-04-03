@@ -13,14 +13,14 @@ const devicesSlice = createSlice({
                 const existingDeviceIndex = state.findIndex(device => device.id === newDevice.id);
                 
                 if (existingDeviceIndex !== -1) {
-                    console.log('update device');
+                    console.log('Update device in store');
                     console.log(newDevice.id);
                     return state.map((device, index) =>
                     index === existingDeviceIndex ? newDevice : device
                 );
                   
                 } else {
-                    console.log('add device');
+                    console.log('Add device in store');
                     return [...state, newDevice];
                 }
             },
