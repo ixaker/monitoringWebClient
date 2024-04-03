@@ -1,13 +1,9 @@
 import React , {useState} from 'react';
-import { Form, Button } from 'react-bootstrap'; // Припускаю, що ви використовуєте Bootstrap
-import { sendDataToServer } from '../SocketConection';
-
+import { Form, Button } from 'react-bootstrap'; 
 
 const ButtonAndPassword = ({ name, input, password, setPassword, inputText, handleOnClick }) => {
     
     const isPasswordValid = input ? password.length >= 8 : true;
-    console.log(input)
-    console.log(isPasswordValid)
 
     return (
         

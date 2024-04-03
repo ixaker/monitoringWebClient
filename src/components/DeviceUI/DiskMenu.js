@@ -48,9 +48,11 @@ return (
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        {/* <UnlockDisk />
+        {/* <UnlockDisk
+            deviceId={deviceId}
+        /> */}
         <ActivationOff />
-        <ActivationOn /> */}
+        <ActivationOn />
             {thisDisk.locked
                 ? <ButtonAndPassword 
                     name={'розблокувати диск'} 

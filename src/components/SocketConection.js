@@ -45,19 +45,16 @@ const SocketConection = () => {
 
     socket.on('webclient', (data) => {
       // console.log('webclient', data);
-      const parsedData = JSON.parse(data);
-      console.log(parsedData);
-      console.log('Received message:', parsedData.payload);
+      console.log('Received message:', data);
       // toast.info(`Інфо: ${parsedData.payload.name || "undefined"}`, {
       //   autoClose: 2000,
       //   hideProgressBar: true
       // });
-      const payload = parsedData.payload;
-      if (parsedData.topic === 'info') {
-        dispatch(addOrUpdateDevice(payload))
+      if (data.topic === 'info') {
+        dispatch(addOrUpdateDevice(data.payload))
       }
-      if (parsedData.topic === 'result') {
-        console.log('result toast')
+      if (data.topic === 'result') {
+        console.log('result', data.result)
         // toast.success(`Результат: ${parsedData.payload.result || "undefined"}`, {
         //   autoClose: 1000,
         //   hideProgressBar: true
@@ -108,16 +105,14 @@ export const sendDataToServer = ({inputText, deviceId}) => {
   console.log(deviceId);
   const data = {
     topic: "command",
-    payload: {
-      id: deviceId,
-      command: inputText,
-    }
+    command: inputText,
+    id: deviceId
   };
 
   console.log(data);
   
   if (socket && socket.connected) {
-      socket.emit('message', JSON.stringify(data));
+      socket.emit('command', data);
       console.log('повідомлення відправлено');
   } else {
       console.error('Socket is not connected');
