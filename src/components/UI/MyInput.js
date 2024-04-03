@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const MyInput = ({type, value, onChange, isPasswordValid, placeholderText, errorMessage }) => {
 
-    const [showPassword, setShowPassword] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
     // function for visibly password handle
     // const togglePasswordVisibility = () => {
     //     setShowPassword(!showPassword);

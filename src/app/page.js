@@ -12,6 +12,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { GiBattery100, GiBattery50 } from "react-icons/gi";
 import DeviceUi from "@/components/DeviceUI/DeviceUI";
 import AppLoader from './../components/Loader/AppLoader'
+import TurnOffAll from "@/components/TurnOffAll/TurnOffAll";
 
 export default function Home() {
   
@@ -25,6 +26,7 @@ export default function Home() {
       <SocketConection />
       <AppLoader show={devices.length === 0} />
       <div className="list-group">
+        <TurnOffAll />
         {devices.map(device => (
           <DeviceUi
             key={device.id}
