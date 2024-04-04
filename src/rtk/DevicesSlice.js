@@ -14,6 +14,8 @@ const devicesSlice = createSlice({
         reducers: {
             addOrUpdateDevice(state, action) {
                 const newDevice = action.payload;
+                console.log(newDevice)
+                console.log(newDevice.id);
                 const existingDeviceIndex = state.findIndex(device => device.id === newDevice.id);
                 
                 let updatedState

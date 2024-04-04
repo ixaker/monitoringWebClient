@@ -1,4 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
+import { useDispatch } from 'react-redux';
+import { addOrUpdateDevice } from '@/rtk/DevicesSlice';
 
 // components
 import DeviceInputForm from '../inputForm';
@@ -38,6 +40,8 @@ const DeviceUi = ({
     const [edit, setEdit] = useState(false)
     const [nick, setNick] = useState('')
 
+    const dispatch = useDispatch();
+
     const handleEdit = () => {
         setEdit(true)
         setNick(device.nickname)
@@ -46,8 +50,22 @@ const DeviceUi = ({
     const handleEditEnd = ({nickName, deviceId}) => {
         setEdit(false)
         console.log(nick)
-        console.log(device.id)
+        console.log(device)
         sendNickToServer({ nickName: nick, deviceId: device.id });
+
+        const updatedDevice = {
+            ...device,
+            nickname: nick
+        };
+        console.log(updatedDevice);
+
+        dispatch(addOrUpdateDevice(updatedDevice));
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleEditEnd(nick);
+        }
     }
 
     const toggleMenu = () => {
@@ -78,42 +96,57 @@ const DeviceUi = ({
             />
 
             <div className='row align-items-center'>
-                <div className='col-10'>
-                    <h3 className="h4 mb-2 align-item-center ">
+                <div className='col-10 align-self-center m-0 pe-0'>
+                    <h4 className="h4 mb-0 alignt-items-center">
                         {"  "}
                         {device.online ? (
                             <>
                                 {edit ? (
                                     <>
-                                        <NicknameInput
-                                            type="text"
-                                            value={nick}
-                                            onChange={(e) => setNick(e.target.value)}
-                                            onBlur={handleEditEnd}
-                                            autoFocus
-                                            placeholderText=""
-                                            handleEditEnd={handleEditEnd}
-                                        />
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <span><GoDotFill style={{color: 'green', margin: '0 0 3px 0'}} /></span>
+                                            <span style={{ fontWeight: "400" }}>{deviceName}. </span>
+                                            <NicknameInput
+                                                type="text"
+                                                value={nick}
+                                                onChange={(e) => setNick(e.target.value)}
+                                                onBlur={handleEditEnd}
+                                                autoFocus
+                                                placeholderText=""
+                                                handleEditEnd={handleEditEnd}
+                                                hadleKeyDown={handleKeyDown}
+                                            />
+                                        </div>
                                         
                                     </>
                                 ) : (
                                     <>
-                                        <GoDotFill style={{color: 'green', margin: '0 0 3px 0'}} />
-                                        {deviceName} - {device.nickname} -{' '}
-                                        <CiEdit onClick={handleEdit} />
+                                        <div style={{ display: 'flex', alignItems: 'center'}}>
+                                            <span><GoDotFill style={{color: 'green', margin: '0 0 3px 0'}} /></span>
+                                            <span style={{"font-weight": "400"}}>{deviceName}. </span>
+                                            <span style={{marginRight: 10}}> </span>
+                                            <span style={{"font-weight": "600"}}> {device.nickname} </span>
+                                            <span style={{marginRight: 10}}> </span>
+                                            <span><CiEdit 
+                                                onClick={handleEdit} 
+                                                size={28}    
+                                                strokeWidth={0.1}
+                                            /></span>
+                                        
+                                        </div>
                                     </>
                                 )}
                             </>
                     ) : (
                         <>
                             <GoDotFill style={{color: 'grey', margin: '0 0 3px 0'}}/>
-                            <span style={{ color: 'grey' }}>{deviceName}</span>
+                            <span style={{ color: 'grey' }}>{deviceName}. {device.nickname} {' '}</span>
                         </>
                         
                     )}
-                    </h3>
+                    </h4>
                 </div>
-                <div className='col-2 text-end'>
+                <div className='col-2 text-end align-self-start ps-0'>
                     <AiOutlineMenu 
                         className="display-4" 
                         onClick={toggleMenu}

@@ -106,7 +106,6 @@ export const sendDataToServer = ({inputText, deviceId}) => {
     payload: inputText,
     id: deviceId
   };
-  
   console.log(data);
   
   if (socket && socket.connected) {
@@ -120,15 +119,14 @@ export const sendDataToServer = ({inputText, deviceId}) => {
 export const sendNickToServer = ({nickName, deviceId}) => {
   console.log('sendNickToServer')
   const data = {
-    topic: "nickName",
+    topic: "nickname",
     payload: nickName,
     id: deviceId
   };
-  
   console.log(data);
   
   if (socket && socket.connected) {
-      socket.emit('nickName', data);
+      socket.emit('command', data);
       console.log('повідомлення відправлено');
   } else {
       console.error('Socket is not connected');
