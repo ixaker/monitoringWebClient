@@ -3,45 +3,49 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 import SocketConection from "@/components/SocketConection";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DeviceInputForm from "@/components/inputForm";
-import { FaLock, FaUnlock } from 'react-icons/fa';
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { GiBattery100, GiBattery50 } from "react-icons/gi";
 import DeviceUi from "@/components/DeviceUI/DeviceUI";
 import AppLoader from './../components/Loader/AppLoader'
 import TurnOffAll from "@/components/TurnOffAll/TurnOffAll";
-import MyButton from "@/components/UI/MyButton";
 import { sendTelegram } from "@/components/SocketConection";
+import Head from 'next/head'; 
+import Login from './../components/Login/Login'
+import LogOut from './../components/LogOut/LogOut'
 
 export default function Home() {
   
   const devices = useSelector(state => state.devices)
   
   return (
-    <main className="container mx-auto py-4" style={{ maxWidth: '576px', minWidth: '320px' }}>
-      <SocketConection/>
-      {devices.length === 0 ? (
-        <AppLoader show={devices.length === 0}/>
-      ) : (
-        <div className="list-group">
-          <TurnOffAll />
-          {/* <MyButton buttonText={'Відправити повідомлення в телеграм'} handleOnClick={sendTelegram}/> */}
-          {devices.map(device => (
-            <DeviceUi
-              key={device.id}
-              deviceName={device.name}
-              ip={device.ip}
-              discs={device.disk}
-              deviceId={device.id}
-              device={device}
-            />
-          ))}
-        </div>
-      )}
-    </main>
-
+    <>
+      <Head>
+        <title>Monitoring</title>
+        <link rel="manifest" href="/manifest.json" />
+      </Head>  
+      <main className="container mx-auto py-4" style={{ maxWidth: '576px', minWidth: '320px' }}>
+        <Login />
+        <SocketConection/>
+        {devices.length === 0 ? (
+          <AppLoader show={devices.length === 0}/>
+        ) : (
+          <div className="list-group">
+            <TurnOffAll />
+            {/* <MyButton buttonText={'Відправити повідомлення в телеграм'} handleOnClick={sendTelegram}/> */}
+            {devices.map(device => (
+              <DeviceUi
+                key={device.id}
+                deviceName={device.name}
+                ip={device.ip}
+                discs={device.disk}
+                deviceId={device.id}
+                device={device}
+              />
+            ))}
+            <LogOut />
+          </div>
+        )}
+      </main>
+    </>
   );
 }

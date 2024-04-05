@@ -21,7 +21,6 @@ const devicesSlice = createSlice({
                 let updatedState
                 if (existingDeviceIndex !== -1) {
                     console.log('Update device in store');
-                    console.log(newDevice.id);
                     return state.map((device, index) =>
                     index === existingDeviceIndex ? newDevice : device
                 );

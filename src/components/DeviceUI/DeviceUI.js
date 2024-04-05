@@ -123,9 +123,9 @@ const DeviceUi = ({
                                     <>
                                         <div style={{ display: 'flex', alignItems: 'center'}}>
                                             <span><GoDotFill style={{color: 'green', margin: '0 0 3px 0'}} /></span>
-                                            <span style={{"font-weight": "400"}}>{deviceName}. </span>
+                                            <span style={{fontWeight: "400"}}>{deviceName}. </span>
                                             <span style={{marginRight: 10}}> </span>
-                                            <span style={{"font-weight": "600"}}> {device.nickname} </span>
+                                            <span style={{fontWeight: "600"}}> {device.nickname} </span>
                                             <span style={{marginRight: 10}}> </span>
                                             <span><CiEdit 
                                                 onClick={handleEdit} 

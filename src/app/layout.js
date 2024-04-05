@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import store from './../rtk/Store';
 import ReduxProvider from "./../rtk/ReduxProvider"
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata = {

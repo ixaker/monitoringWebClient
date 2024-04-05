@@ -1,5 +1,6 @@
 import React , {useState} from 'react';
 import { Form, Button } from 'react-bootstrap'; 
+import Loader from '../Loader/Loader';
 
 const MyButton = ({
                     buttonText,
@@ -17,8 +18,12 @@ const MyButton = ({
                 }}
                 disabled={disabled}
                 onClick={handleOnClick}
-            > 
-                {buttonText} 
+            >   <span className='d-flex justify-content-center align-items-center'>
+                    {buttonText}
+                    <span className='mx-2'></span>
+                    {disabled ? <Loader color="text-secondary"/> : ''}
+                </span>
+                
             </Button>
     );
 };
