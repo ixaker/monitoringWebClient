@@ -4,16 +4,41 @@ import MyButton from '../UI/MyButton';
 import MyInput from '../UI/MyInput';
 import { sendAuthData } from './sendAuthData';
 
-const LoginForm = ({}) => {
+const LoginForm = ({setShow}) => {
     
     const [value, setValue] = useState('')
-    const [buttonDisabled, setButtonDisabled] = useState(false)
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [error, setError] = useState(null);
+    const [correct, setCorrect] = useState('')
 
-    const handleClick = () => {
-        // sendAuthData(value);
+    const handleClick = (event) => {
+        event.preventDefault();
+        setValue('')
+        setCorrect(true);
+        setError(null);
+        const data = {
+            "password": value
+        }
         setButtonDisabled(true)
-        localStorage.setItem('token', "asdf");
+        sendAuthData(data, setShow, setButtonDisabled)
+            .then(() => {
+                setShow(false);
+            })
+            .catch(error => 
+                {
+                    console.error("Помилка авторизації:", error.message);
+                    setCorrect(false)
+                    setError('авторизація не відбулась')
+                })
+            .finally(() => {
+                setButtonDisabled(false);
+            });
+    };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleClick(event);
+        }
     };
 
     return (
@@ -22,9 +47,11 @@ const LoginForm = ({}) => {
                 <MyInput 
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
-                    isPasswordValid={''}
+                    isPasswordValid={correct}
                     autoFocus={true}
                     placeholderText={' '}
+                    errorMessage={error}
+                    onKeyDown={handleKeyPress}
                 />       
                 
                 <MyButton 

@@ -11,7 +11,7 @@ import TurnOffAll from "@/components/TurnOffAll/TurnOffAll";
 import { sendTelegram } from "@/components/SocketConection";
 import Head from 'next/head'; 
 import Login from './../components/Login/Login'
-import LogOut from './../components/LogOut/LogOut'
+import Auth from './../components/Login/Auth'
 
 export default function Home() {
   
@@ -22,6 +22,7 @@ export default function Home() {
       <Head>
         <title>Monitoring</title>
         <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>  
       <main className="container mx-auto py-4" style={{ maxWidth: '576px', minWidth: '320px' }}>
         <Login />
@@ -42,7 +43,7 @@ export default function Home() {
                 device={device}
               />
             ))}
-            <LogOut />
+            <Auth />
           </div>
         )}
       </main>

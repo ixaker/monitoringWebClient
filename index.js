@@ -66,10 +66,7 @@ httpApp.use((req, res, next) => {
     res.redirect('https://' + req.headers.host + req.url);
 });
 
-<<<<<<< HEAD
-const staticFilesPath = '/root/dew/monitoringWebClient/out';
-httpApp.use(express.static(staticFilesPath));
-=======
+
 const staticFilesPath = '/root/dew/monitoringWebClient/public';
 
 // Додайте middleware express.static() до вашого сервера HTTPS
@@ -79,7 +76,7 @@ httpsApp.use(express.static(staticFilesPath));
 httpApp.get('/', (req, res) => {
     res.sendFile(path.join(staticFilesPath, 'index.html'));
 });
->>>>>>> b313350dedf8d6e8ef0751ca2661298e6fd9626f
+
 
 httpServer.listen(80, () => {
     console.log('HTTP server is running on port 80');

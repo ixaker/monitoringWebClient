@@ -3,7 +3,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const MyInput = ({type, value, onChange, isPasswordValid, placeholderText, errorMessage, autoFocus }) => {
+const MyInput = ({type, value, onChange, isPasswordValid, placeholderText, errorMessage, autoFocus, onKeyDown }) => {
 
     const [showPassword, setShowPassword] = useState(false);
     // function for visibly password handle
@@ -27,6 +27,7 @@ const MyInput = ({type, value, onChange, isPasswordValid, placeholderText, error
                 isValid={isPasswordValid === true}
                 isInvalid={isPasswordValid === false}
                 autoFocus={autoFocus}
+                onKeyDown={onKeyDown}
             />
             {/* elements for password visibly */}
             <span className="input-group-text" onClick={() => setShowPassword(!showPassword)}>

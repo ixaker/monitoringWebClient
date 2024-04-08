@@ -1,6 +1,6 @@
-export const sendAuthData = async (data) => {
+export const sendAuthData = async (data, setShow, setButtonDisabled) => {
     try {
-        const response = await fetch('http://monitoring.qpart.com.ua/logn', {
+        const response = await fetch('https://monitoring.qpart.com.ua:5000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -8,19 +8,25 @@ export const sendAuthData = async (data) => {
             body: JSON.stringify(data)
         });
 
-        if (response.ok) {
-            const responseData = await response.json();
-            console.log(responseData);
-            
-            if (responseData.token) {
-                localStorage.setItem('token', responseData.token);
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Unauthorized'); 
+            } else {
+                throw new Error('Network response was not ok');
             }
-    
-        } else {
-            throw new Error('Network response was not ok');
         }
 
+        const responseData = await response.json();
+        console.log(responseData);
+
+        if (responseData.access_token) {
+            localStorage.setItem('token', responseData.access_token);
+            setShow(false);
+        }
     } catch (error) {
+        console.error("Помилка авторизації:", error.message);
         throw error;
+    } finally {
+        setButtonDisabled(false);
     }
 };

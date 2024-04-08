@@ -2,14 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import LoginForm from './LoginForm'
 
-const Login = () => {
-
-    const [show, setShow] = useState(false);
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        setShow(!token);
-        
-    },);
+const Login = ({show, setShow}) => {
 
     return(
         <Modal  
@@ -25,7 +18,7 @@ const Login = () => {
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <LoginForm/>
+            <LoginForm setShow={setShow}/>
         </Modal.Body>
     </Modal>
     )

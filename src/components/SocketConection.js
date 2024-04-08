@@ -4,7 +4,9 @@ import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import { addOrUpdateDevice } from '@/rtk/DevicesSlice';
 import { ToastContainer, toast } from 'react-toastify';
+import { deleteAuthToken } from './Login/LogOut'
 import 'react-toastify/dist/ReactToastify.css';
+
 
 let socket;
 
@@ -22,53 +24,35 @@ const SocketConection = ({setLoaders}) => {
     
     socket.on('connect', () => {
       console.log('Connected to WebSocket server');
-      // toast.success('Connected', {
-      //   autoClose: 1000,
-      //   hideProgressBar: true
-      // });
     });
 
-    // отримання повідомлень
-    socket.on('message', (data) => {
-      // const parsedData = JSON.parse(data);
-      // console.log('Received message:', parsedData.payload);
-      // toast.info(parsedData.payload.name || "undefined", {
-      //   autoClose: 1000,
-      //   hideProgressBar: true
-      // });
-      // const payload = parsedData.payload;
+    socket.on('unauthorized', (data) => {
+      console.log('Unauthorized access:', data.message);
+      console.log('Status code:', data.status);
+      deleteAuthToken();
     });
+
 
     socket.on('info', (data) => {
       console.log('soketon info', data);
     });
 
     socket.on('webclient', (data) => {
-      // console.log('webclient', data);
       console.log('Received message:', data);
-      // toast.info(`Інфо: ${parsedData.payload.name || "undefined"}`, {
-      //   autoClose: 2000,
-      //   hideProgressBar: true
-      // });
+
       if (data.topic === 'info') {
         dispatch(addOrUpdateDevice(data.payload))
       }
       if (data.topic === 'result') {
         console.log('result', data.result)
-        // toast.success(`Результат: ${parsedData.payload.result || "undefined"}`, {
-        //   autoClose: 1000,
-        //   hideProgressBar: true
-        // });
+
       }
     });
 
     socket.on('error', (error) => {
       console.error('WebSocket connection error:', error);
       console.error('WebSocket connection error:', error.code);
-      // toast.error('Conection error', {
-      //   autoClose: 10000,
-      //   hideProgressBar: true
-      // });
+
     });
 
     socket.on("connect_error", (error) => {
@@ -83,10 +67,7 @@ const SocketConection = ({setLoaders}) => {
 
     return () => {
       socket.disconnect(); 
-      // toast.warning('Disconnect', {
-      //   autoClose: 3000,
-      //   hideProgressBar: true
-      // });
+      console.log('disconect 111');
     };
   }, []);
 

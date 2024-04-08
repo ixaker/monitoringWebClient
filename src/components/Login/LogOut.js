@@ -4,21 +4,23 @@ import { Button } from 'react-bootstrap';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import ConfirmationModal from '../confirmationModal/confirmationModal';
+import Loader from '../Loader/Loader';
 
-const LogOut = () => {
+const LogOut = ({setShow}) => {
     
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [buttonDisable, setButtonDisable]= useState(false)
 
-    const deleteAuthToken = () => {
-        localStorage.removeItem('token')
-    }
+    
     const handleLogOut = () => {
         setShowConfirmation(true);
     };
 
     const handleConfirm = () => {
+        setShow(false)
         setShowConfirmation(false);
         console.log('handleConfirm logOut');
+        setButtonDisable(true)
         deleteAuthToken();
     }
 
@@ -30,18 +32,27 @@ const LogOut = () => {
                 size="lg"
                 onClick={handleLogOut}
                 className='mb-4 d-flex flex-row align-items-center justify-content-center'
+                disabled={buttonDisable}
             >
                 <span className='my-3 me-3'>
                     Вийти
                 </span>
                 
-                <FontAwesomeIcon 
-                    icon={faArrowRightFromBracket} 
-                    className='mb-2' 
-                    style={{
-                        "fontSize": "20px"
-                    }}
-                />
+                <span className='p-0 d-flex flex-row align-items-center justify-content-center'>
+                    {buttonDisable 
+                        ? <Loader color="text-secondary"/>
+                        : <FontAwesomeIcon 
+                            icon={faArrowRightFromBracket} 
+                            className='' 
+                            style={{
+                                "fontSize": "20px"
+                            }}
+                        />
+
+                    }
+                    
+                </span>
+                
             </Button>
             <ConfirmationModal 
                 show={showConfirmation}
@@ -55,3 +66,7 @@ const LogOut = () => {
 };
 
 export default LogOut;
+
+export const deleteAuthToken = () => {
+    localStorage.removeItem('token')
+}

@@ -9,7 +9,7 @@ function Loader({size, color}) {
         role="status" 
         variant="primary" 
         size={size}
-        className={`${color}`}
+        className={`${color}`}  
       >
         <span className="visually-hidden">Loading...</span>
       </Spinner>
