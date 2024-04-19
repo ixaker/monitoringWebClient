@@ -8,7 +8,7 @@ const AuthComponent = ({}) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         setShow(!token);
-    },);
+    },[]);
     return !show ? <LogOut setShow={setShow} /> : <Login setShow={setShow} show={show}/>;
 };
 

@@ -23,14 +23,10 @@ const DeviceMenu = ({ deviceId, show, onHide, device }) => {
         setShowConfirmation(false);
         onHide();
         console.log('sendDataToServer', inputText)
-        // sendDataToServer({inputText, deviceId});
+        sendDataToServer({inputText, deviceId});
     }
 
-//     const commands = [
-//     `Unlock-BitLocker -MountPoint "${disk}:" -Password (ConvertTo-SecureString -String "${pass}" -AsPlainText -Force)`, //розблокувати
-//     `Enable-BitLocker -MountPoint "${disk}:" -PasswordProtector -Password (ConvertTo-SecureString -String "${pass}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`, // розшифрувати
-//     `Disable-BitLocker -MountPoint "${disk}:"` // зашифрувати
-// ]
+
 
 const MenuButton = ({name, command, svg}) => {
     return (

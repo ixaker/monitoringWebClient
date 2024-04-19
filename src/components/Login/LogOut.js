@@ -17,7 +17,7 @@ const LogOut = ({setShow}) => {
     };
 
     const handleConfirm = () => {
-        setShow(false)
+        setShow(true)
         setShowConfirmation(false);
         console.log('handleConfirm logOut');
         setButtonDisable(true)

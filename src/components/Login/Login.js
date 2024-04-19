@@ -10,7 +10,11 @@ const Login = ({show, setShow}) => {
             aria-labelledby="contained-modal-title-vcenter"
             centered
             className='modal-fullscreen-sm-down modal-bg-opacity-50' 
-            style={{ backgroundColor: 'rgba(0, 0, 0, 0.90)' }} 
+            style={{ 
+                backgroundColor: 'rgba(0, 0, 0, 0.90)',
+                display: "flex",
+                paddingBottom: "50%"
+         }} 
         >
         <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">

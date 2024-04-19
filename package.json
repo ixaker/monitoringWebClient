@@ -4,15 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3111",
     "build": "next build",
-    "start": "next start -p 3000",
+    "start": "next start -p 3111",
     "lint": "next lint",
     "server": "nodemon --watch index.js",
     "servstart": "nodemon index.js index.js"
   },
   "dependencies": {
-    "@ducanh2912/next-pwa": "^10.2.5",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -42,6 +41,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
     "nodemon": "^3.1.0",
+    "vite-plugin-manifest": "^0.0.1",
     "webpack": "^5.91.0"
   }
 }

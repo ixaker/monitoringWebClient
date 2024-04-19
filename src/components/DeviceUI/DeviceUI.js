@@ -131,6 +131,7 @@ const DeviceUi = ({
                                                 onClick={handleEdit} 
                                                 size={28}    
                                                 strokeWidth={0.1}
+                                                className='edit-icon'
                                             /></span>
                                         
                                         </div>
@@ -194,12 +195,12 @@ const DeviceUi = ({
                             </span>
                         </div>
                         <div className='col-2 text-start p-0'>
-                        {Object.keys(loaders).map(diskId => (
+                        {/* {Object.keys(loaders).map(diskId => (
                             loaders[diskId] ? <Loader key={diskId} /> : null
-                        ))}
+                        ))} */}
                         </div>
                         <div className='col-1 text-end p-0'>
-                        <DiskMenuItem key={index} deviceId={deviceId} diskName={disk.mounted} device={device} diskCrypt={disk.crypt} setLoader={setLoaders}/>
+                        <DiskMenuItem key={index} deviceId={deviceId} diskName={disk.mounted} device={device} diskCrypt={disk.crypt} setLoaders={setLoaders}/>
 
                         </div>
                     </div>

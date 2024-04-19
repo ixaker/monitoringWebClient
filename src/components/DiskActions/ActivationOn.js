@@ -36,7 +36,8 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
 
     return (
         <>
-            <Form.Group>
+            <Form.Group
+            >
                 <MyInput 
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
@@ -54,6 +55,7 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
                     buttonText="Активувати шифрування"
                     disabled={!isPasswordValid || !isPasswordMatch}
                     handleOnClick={handleOnClick}
+                    showLoader={false}
                 /> 
             </Form.Group>
             <ConfirmationModal
@@ -62,6 +64,7 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
                 onConfirm={() => handleConfirm()}
                 message={`Ви хочете зашифрувати диск ${diskName.slice(0, -1)}. Переконайтесь, що пароль для шифрування надійно збережений.`}
                 title='Підтвердження шифрування'
+                
             />
         </>
     );

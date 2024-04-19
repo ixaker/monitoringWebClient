@@ -5,7 +5,8 @@ import Loader from '../Loader/Loader';
 const MyButton = ({
                     buttonText,
                     handleOnClick,
-                    disabled
+                    disabled,
+                    showLoader
                 }) => {
 
     return (
@@ -21,7 +22,7 @@ const MyButton = ({
             >   <span className='d-flex justify-content-center align-items-center'>
                     {buttonText}
                     <span className='mx-2'></span>
-                    {disabled ? <Loader color="text-secondary"/> : ''}
+                    {showLoader ? <Loader color="text-secondary"/> : ''}
                 </span>
                 
             </Button>

@@ -1,17 +1,16 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import { useDispatch } from 'react-redux';
 import { addOrUpdateDevice } from '@/rtk/DevicesSlice';
 import { ToastContainer, toast } from 'react-toastify';
-import { deleteAuthToken } from './Login/LogOut'
+import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 let socket;
 
 const SocketConection = ({setLoaders}) => {
   const dispatch = useDispatch();
+  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
     socket = io('wss://monitoring.qpart.com.ua:5000', {
@@ -21,15 +20,23 @@ const SocketConection = ({setLoaders}) => {
         },
       },
     ); 
+
+    const timeout = setTimeout(() => {
+      if (!connected) {
+        toast.error('Сервер не відповідає');
+        console.log('Сервер не відповідає');
+      }
+    }, 5000);
     
     socket.on('connect', () => {
       console.log('Connected to WebSocket server');
+      setConnected(true);
+      clearTimeout(timeout);
     });
 
     socket.on('unauthorized', (data) => {
       console.log('Unauthorized access:', data.message);
       console.log('Status code:', data.status);
-      deleteAuthToken();
     });
 
 
@@ -51,29 +58,18 @@ const SocketConection = ({setLoaders}) => {
 
     socket.on('error', (error) => {
       console.error('WebSocket connection error:', error);
-      console.error('WebSocket connection error:', error.code);
-
-    });
-
-    socket.on("connect_error", (error) => {
-        console.error('Connect_error:', error.type, error);
-        console.error('Connect_error:', error.type, error.code);
-        console.error('Connect_error:', error.type, error.message);
-        // toast.error('Conection error', {
-        //   autoClose: 10000,
-        //   hideProgressBar: true
-        // });
     });
 
     return () => {
-      socket.disconnect(); 
-      console.log('disconect 111');
-    };
-  }, []);
+      socket.disconnect();
+      console.log('Disconnected from WebSocket server');
+      clearTimeout(timeout);
+  }
+}, []);
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer autoClose={100000} />
     </>
   );
 };
