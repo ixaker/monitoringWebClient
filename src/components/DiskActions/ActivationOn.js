@@ -27,7 +27,6 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
             ...prevState,
             [deviceId]: true
         }));
-      
     };
 
     const handleOnClick = (inputText) => {

@@ -5,25 +5,24 @@ import './confirmationmodal.css'
 
 function ConfirmationModal({ show, onHide, onConfirm, title, message }) {
     return (
-        <Modal 
-            show={show} 
+        <Modal
+            show={show}
             onHide={onHide}
             aria-labelledby="contained-modal-title-vcenter"
             centered
-            className='modal-fullscreen-sm-down modal-container' 
+            className='modal-fullscreen-sm-down modal-container'
         >
             <Modal.Header closeButton>
                 <Modal.Title
                     className='d-flex justify-content-end'
                 >
-                    { title || 'Підтвердження операції'}
+                    {title || 'Підтвердження операції'}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                { message || ''}
+                {message || ''}
             </Modal.Body>
-
-            <Modal.Footer 
+            <Modal.Footer
                 className='d-flex justify-content-center'
             >
                 <Button variant="secondary" className='btn-lg' onClick={onHide}>

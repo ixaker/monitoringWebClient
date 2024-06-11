@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import { getRelativePosition, log10 } from 'chart.js/helpers';
 
-const CPU = ({data}) => {
-    const [chartData, setChartData] = useState(data);
-    const chartRef = useRef(null);
-    console.log(data);
+const ChartUI = ({ data }) => {
+  const [chartData, setChartData] = useState(data);
+  const chartRef = useRef(null);
+  console.log(data);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
@@ -25,31 +25,31 @@ const CPU = ({data}) => {
         ]
       },
       options: {
-            plugins: {
-                legend: {
-                    display: false,
-                    
-                }
+        plugins: {
+          legend: {
+            display: false,
+
+          }
+        },
+        scales: {
+          x: {
+            display: false,
+            grid: {
+              display: false
+
             },
-            scales: {
-              x: {
-                display: false,
-                grid: {
-                  display: false
-                  
-                },
-                
-              },
-              y: {
-                display: false,
-                grid: {
-                  display: false,
-                  color: 'grey'
-                },
-                color: 'black'
-              }
+
+          },
+          y: {
+            display: false,
+            grid: {
+              display: false,
+              color: 'grey'
             },
-            
+            color: 'black'
+          }
+        },
+
         onClick: (e) => {
           const canvasPosition = getRelativePosition(e, chart);
           const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
@@ -66,4 +66,4 @@ const CPU = ({data}) => {
   return <canvas ref={chartRef} style={{ height: '50px' }} />;
 };
 
-export default CPU;
+export default ChartUI;

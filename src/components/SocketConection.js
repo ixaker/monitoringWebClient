@@ -14,11 +14,21 @@ const SocketConection = ({ setLoaders }) => {
 
   useEffect(() => {
     const startConnectTime = performance.now();
+    const token = localStorage.getItem('token') || 'no token';
+    console.log("token", token)
     socket = io('wss://monitoring.qpart.com.ua:5000', {
       transport: ['websocket'],
+      auth: {
+        "token": token,
+      },
+      query: {
+        "my-key": "my-value"
+      },
       extraHeaders: {
         "type": "webclient",
+        Authorization: `Bearer ${token}`
       },
+      querty: 'my-token'
     },
     );
 
@@ -28,14 +38,6 @@ const SocketConection = ({ setLoaders }) => {
         console.log('Сервер не відповідає');
       }
     }, 5000);
-
-    socket.on('connect', () => {
-      const endConnectTime = performance.now();
-      console.log(`Connected to WebSocket server in ${endConnectTime - startConnectTime}ms`);
-      console.log('Connected to WebSocket server');
-      setConnected(true);
-      clearTimeout(timeout);
-    });
 
     socket.on('unauthorized', (data) => {
       console.log('Unauthorized access:', data.message);
@@ -48,6 +50,7 @@ const SocketConection = ({ setLoaders }) => {
     });
 
     socket.on('webclient', (data) => {
+      console.log('webclient event')
       const startMessageTime = performance.now();
       console.log('Received message:', data);
 
@@ -61,9 +64,26 @@ const SocketConection = ({ setLoaders }) => {
       console.log(`Message processed in ${endMessageTime - startMessageTime}ms`);
     });
 
+    // socket.on('getList', (data) => {
+    //   console.log('Received getlist data:', data);
+    //   data.forEach(item => {
+    //     dispatch(addOrUpdateDevice(item));
+    //   });
+    // });
+
     socket.on('error', (error) => {
       console.error('WebSocket connection error:', error);
     });
+
+    socket.on('connect', () => {
+      const endConnectTime = performance.now();
+      console.log(`Connected to WebSocket server in ${endConnectTime - startConnectTime}ms`);
+      console.log('Connected to WebSocket server');
+      setConnected(true);
+      clearTimeout(timeout);
+      socket.emit('getList', { 'getlist': true });
+    });
+
 
     return () => {
       socket.disconnect();

@@ -3,19 +3,19 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addOrUpdateDevice } from '@/rtk/DevicesSlice';
 import io from 'socket.io-client';
-import { sendDataToServer } from './SocketConection';
+import { sendDataToServer } from '../../../SocketConection';
 
-const DeviceInputForm = ({deviceId}) => {
+const DeviceInputForm = ({ deviceId }) => {
   const dispatch = useDispatch();
   const [inputText, setInputText] = useState('');
 
   const handleSendButtonClick = () => {
     // Викликаємо функцію sendDataToServer з аргументами
     console.log(deviceId)
-    sendDataToServer({inputText, deviceId});
+    sendDataToServer({ inputText, deviceId });
     // Очищаємо поле вводу після натискання кнопки
     setInputText('');
-  };  
+  };
 
   return (
     <div className="input-group mt-3">

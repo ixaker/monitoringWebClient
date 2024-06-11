@@ -1,6 +1,6 @@
 import React from 'react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import './deviceui.css'
+import './diskUsage.css';
 
 const DiskUsageProgressBar = ({ usedSpace, totalSpace, availableSpace }) => {
   const usedNumber = Math.round(usedSpace);
@@ -10,8 +10,8 @@ const DiskUsageProgressBar = ({ usedSpace, totalSpace, availableSpace }) => {
 
   return (
     <div className="progress-container">
-      <ProgressBar 
-        now={nowNumber} 
+      <ProgressBar
+        now={nowNumber}
         max={maxNumber}
         className='bg-secondary '
         style={{
