@@ -36,12 +36,13 @@ export default function Home() {
         {/* <Login /> */}
         <SocketConection />
         <div className="list-group">
-          <TurnOffAll />
+
 
           {loading ? (
             <AppLoader show={loading} />
           ) : (
             <>
+              <TurnOffAll />
               {/* <MyButton buttonText={'Відправити повідомлення в телеграм'} handleOnClick={sendTelegram}/> */}
               <DeviceUi
                 devices={devices}
@@ -52,10 +53,11 @@ export default function Home() {
               // deviceId={device.id}
               // device={device}
               />
+              <Auth />
             </>
           )}
 
-          <Auth />
+
         </div>
       </main>
     </>
