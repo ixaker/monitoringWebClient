@@ -3,7 +3,6 @@ import DiskMenu from './DiskMenu';
 import { AiOutlineSetting } from "react-icons/ai";
 
 const DiskMenuItem = ({ deviceId, diskName, device, diskCrypt, setLoaders }) => {
-    console.log('start DiskMenuItem');
     // const [openDiskMenu, setOpenDiskMenu] = useState(false)
     const [modalShow, setModalShow] = React.useState(false);
     const toggleDiskMenu = () => {

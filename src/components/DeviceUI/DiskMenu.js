@@ -11,7 +11,6 @@ import ActivationOff from '../DiskActions/ActivationOff';
 import ActivationOn from '../DiskActions/ActivationOn';
 
 const DiskMenu = ({ diskName, deviceId, show, onHide, device, setModalShow, onHidePrevious, setLoaders }) => {
-    console.log('start DiskMenu');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [password, setPassword] = useState('');
     const [inpText, setInpText] = useState('')
