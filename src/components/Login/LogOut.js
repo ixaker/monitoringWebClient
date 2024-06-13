@@ -7,10 +7,8 @@ import ConfirmationModal from '../confirmationModal/confirmationModal';
 import Loader from '../Loader/Loader';
 
 const LogOut = ({ setShow }) => {
-
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [buttonDisable, setButtonDisable] = useState(false)
-
 
     const handleLogOut = () => {
         setShowConfirmation(true);
@@ -23,7 +21,6 @@ const LogOut = ({ setShow }) => {
         setButtonDisable(true)
         deleteAuthToken();
     }
-
 
     return (
         <>
@@ -68,5 +65,6 @@ const LogOut = ({ setShow }) => {
 export default LogOut;
 
 export const deleteAuthToken = () => {
+    console.log('deleteAuthToken')
     localStorage.removeItem('token')
 }

@@ -1,15 +1,18 @@
-import React , {useState} from 'react';
-import { Form } from 'react-bootstrap'; 
+import React, { useState } from 'react';
+import { Form } from 'react-bootstrap';
 import MyButton from '../UI/MyButton';
 import MyInput from '../UI/MyInput';
 import { sendAuthData } from './sendAuthData';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../rtk/TokenSlice';
 
-const LoginForm = ({setShow}) => {
-    
+const LoginForm = ({ setShow }) => {
+
     const [value, setValue] = useState('')
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [error, setError] = useState(null);
     const [correct, setCorrect] = useState('')
+    const dispatch = useDispatch();
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -21,15 +24,16 @@ const LoginForm = ({setShow}) => {
         }
         setButtonDisabled(true)
         sendAuthData(data, setShow, setButtonDisabled)
-            .then(() => {
+            .then((data) => {
                 setShow(false);
+                dispatch(setToken(data));
+                console.log('Login form update token', data)
             })
-            .catch(error => 
-                {
-                    console.error("Помилка авторизації:", error.message);
-                    setCorrect(false)
-                    setError('авторизація не відбулась')
-                })
+            .catch(error => {
+                console.error("Помилка авторизації:", error.message);
+                setCorrect(false)
+                setError('авторизація не відбулась')
+            })
             .finally(() => {
                 setButtonDisabled(false);
             });
@@ -44,7 +48,7 @@ const LoginForm = ({setShow}) => {
     return (
         <>
             <Form.Group>
-                <MyInput 
+                <MyInput
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     isPasswordValid={correct}
@@ -52,13 +56,13 @@ const LoginForm = ({setShow}) => {
                     placeholderText={' '}
                     errorMessage={error}
                     onKeyDown={handleKeyPress}
-                />       
-                
-                <MyButton 
+                />
+
+                <MyButton
                     buttonText="Вхід"
                     handleOnClick={handleClick}
                     disabled={buttonDisabled}
-                /> 
+                />
             </Form.Group>
         </>
     );

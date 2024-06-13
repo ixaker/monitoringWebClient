@@ -10,7 +10,7 @@ export const sendAuthData = async (data, setShow, setButtonDisabled) => {
 
         if (!response.ok) {
             if (response.status === 401) {
-                throw new Error('Unauthorized'); 
+                throw new Error('Unauthorized');
             } else {
                 throw new Error('Network response was not ok');
             }
@@ -22,6 +22,7 @@ export const sendAuthData = async (data, setShow, setButtonDisabled) => {
         if (responseData.access_token) {
             localStorage.setItem('token', responseData.access_token);
             setShow(false);
+            return responseData.access_token
         }
     } catch (error) {
         console.error("Помилка авторизації:", error.message);
