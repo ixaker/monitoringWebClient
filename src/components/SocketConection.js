@@ -3,34 +3,30 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { addOrUpdateDevice } from '@/rtk/DevicesSlice';
 import { ToastContainer, toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteAuthToken } from './Login/LogOut';
 import 'react-toastify/dist/ReactToastify.css';
 
 let socket;
-
-const SocketConection = ({ setLoaders }) => {
+const SocketConection = ({ }) => {
   const dispatch = useDispatch();
   const [connected, setConnected] = useState(false);
+  let tokenFromStore = useSelector(state => state.token.token);
+  let tokenFromLocal;
+  if (typeof window !== 'undefined') {
+    tokenFromLocal = localStorage.getItem('token');
+  }
+  let token = tokenFromStore || tokenFromLocal;
 
-  useEffect(() => {
+  const connectSocket = () => {
+    console.log('ConnectSocket...');
     const startConnectTime = performance.now();
-    const token = localStorage.getItem('token') || 'no token';
-    console.log("token", token)
+    const authToken = token || 'no token';
     socket = io('wss://monitoring.qpart.com.ua:5000', {
       transport: ['websocket'],
-      auth: {
-        "token": token,
-      },
-      query: {
-        "my-key": "my-value"
-      },
-      extraHeaders: {
-        "type": "webclient",
-        Authorization: `Bearer ${token}`
-      },
-      querty: 'my-token'
-    },
-    );
+      auth: { "token": authToken },
+      extraHeaders: { "type": "webclient" },
+    });
 
     const timeout = setTimeout(() => {
       if (!connected) {
@@ -39,64 +35,65 @@ const SocketConection = ({ setLoaders }) => {
       }
     }, 5000);
 
-    socket.on('unauthorized', (data) => {
+    socket.on('unauthorized', handleUnauthorized);
+    socket.on('info', handleInfo);
+    socket.on('webclient', handleWebClient);
+    socket.on('error', handleError);
+    socket.on('connect', handleConnect);
+
+    function handleUnauthorized(data) {
       console.log('Unauthorized access:', data.message);
       console.log('Status code:', data.status);
-    });
+      deleteAuthToken();
+    }
 
+    function handleInfo(data) {
+      console.log('Socket info:', data);
+    }
 
-    socket.on('info', (data) => {
-      console.log('soketon info', data);
-    });
-
-    socket.on('webclient', (data) => {
-      console.log('webclient event')
-      const startMessageTime = performance.now();
-      console.log('Received message:', data);
-
-      if (data.topic === 'info') {
-        dispatch(addOrUpdateDevice(data.payload))
+    function handleWebClient(data) {
+      const { topic, payload } = data;
+      if (topic === 'info') {
+        dispatch(addOrUpdateDevice(payload));
+      } else if (topic === 'result') {
+        console.log('Result:', data.result);
       }
-      if (data.topic === 'result') {
-        console.log('result', data.result)
-      }
-      const endMessageTime = performance.now();
-      console.log(`Message processed in ${endMessageTime - startMessageTime}ms`);
-    });
+    }
 
-    // socket.on('getList', (data) => {
-    //   console.log('Received getlist data:', data);
-    //   data.forEach(item => {
-    //     dispatch(addOrUpdateDevice(item));
-    //   });
-    // });
-
-    socket.on('error', (error) => {
+    function handleError(error) {
       console.error('WebSocket connection error:', error);
-    });
+    }
 
-    socket.on('connect', () => {
-      const endConnectTime = performance.now();
-      console.log(`Connected to WebSocket server in ${endConnectTime - startConnectTime}ms`);
-      console.log('Connected to WebSocket server');
-      setConnected(true);
+    function handleConnect() {
       clearTimeout(timeout);
-      socket.emit('getList', { 'getlist': true });
-    });
+      console.log('WebSocket connected');
+      console.log('Socket id:', socket.id);
+      console.log('Socket URL:', socket.io.uri);
+      setConnected(true);
+      socket.emit('getList', { getlist: true });
+    }
+  }
 
+  useEffect(() => {
+    console.log('UseEffect SocketConnection start...');
+    connectSocket();
+    if (socket) {
+      socket.on('disconnect', handleDisconnect);
+    }
+
+    function handleDisconnect() {
+      console.log('WebSocket disconnected');
+      setConnected(false);
+    }
 
     return () => {
-      socket.disconnect();
-      console.log('Disconnected from WebSocket server');
-      clearTimeout(timeout);
-    }
-  }, []);
+      if (socket) {
+        socket.off('disconnect', handleDisconnect);
+      }
+    };
+  }, [token]);
 
-  return (
-    <>
-      <ToastContainer autoClose={100000} />
-    </>
-  );
+  return <ToastContainer autoClose={100000} />;
 };
 
 export default SocketConection;
