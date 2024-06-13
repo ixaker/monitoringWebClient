@@ -17,7 +17,6 @@ const DeviceUi = ({
     device,
     devices
 }) => {
-    console.log('start DeviceUi');
     const [modalShow, setModalShow] = React.useState(false);
     const [loaders, setLoaders] = useState({});
 
@@ -25,7 +24,7 @@ const DeviceUi = ({
         <div>
             {
                 devices.map(device => (
-                    <div className="position-relative container mb-4 border rounded p-3 pb-2 bg-dark-subtle align-items-center shadow" style={{ border: "2px solid red" }}>
+                    <div key={device.id} className="position-relative container mb-4 border rounded p-3 pb-2 bg-dark-subtle align-items-center shadow" style={{ border: "2px solid red" }}>
                         <DeviceMenu
                             deviceId={device.id}
                             device={device}
