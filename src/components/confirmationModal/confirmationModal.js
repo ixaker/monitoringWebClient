@@ -23,7 +23,7 @@ function ConfirmationModal({ show, onHide, onConfirm, title, message }) {
                 {message || ''}
             </Modal.Body>
             <Modal.Footer
-                className='d-flex justify-content-center'
+                className='d-flex justify-content-center footer'
             >
                 <Button variant="secondary" className='btn-lg' onClick={onHide}>
                     Скасувати

@@ -20,6 +20,7 @@ const DeviceMenu = ({ deviceId, show, onHide, device }) => {
 
     const handleConfirm = () => {
         console.log('sendDataToServer from deviceMenu');
+        console.log('sendDataToServer from deviceMenu', deviceId);
         setShowConfirmation(false);
         onHide();
         console.log('sendDataToServer', inputText)
@@ -52,7 +53,7 @@ const DeviceMenu = ({ deviceId, show, onHide, device }) => {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Компьютер {device.name}
+                        Компьютер {device.name}. {device.nickname}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body
@@ -75,6 +76,7 @@ const DeviceMenu = ({ deviceId, show, onHide, device }) => {
                 show={showConfirmation}
                 onHide={() => setShowConfirmation(false)}
                 onConfirm={handleConfirm}
+                message={"Ви підтверджуєте дію?"}
             />
         </>
     );
