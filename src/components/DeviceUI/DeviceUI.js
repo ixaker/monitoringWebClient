@@ -20,6 +20,20 @@ const DeviceUi = ({
     const [modalShow, setModalShow] = React.useState(false);
     const [loaders, setLoaders] = useState({});
 
+    const handleShow = (deviceId) => {
+        setModalShow(prevState => ({
+            ...prevState,
+            [deviceId]: true
+        }));
+    };
+
+    const handleHide = (deviceId) => {
+        setModalShow(prevState => ({
+            ...prevState,
+            [deviceId]: false
+        }));
+    };
+
     return (
         <div>
             {
@@ -28,13 +42,13 @@ const DeviceUi = ({
                         <DeviceMenu
                             deviceId={device.id}
                             device={device}
-                            show={modalShow}
-                            onHide={() => setModalShow(false)}
+                            show={modalShow[device.id] || false}
+                            onHide={() => handleHide(device.id)}
                         />
 
                         <DeviceInfo
                             device={device}
-                            setModalShow={setModalShow}
+                            setModalShow={() => handleShow(device.id)}
                         />
 
                         <p className="mb-1">{ip}</p>
