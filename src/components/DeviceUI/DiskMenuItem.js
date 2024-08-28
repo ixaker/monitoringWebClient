@@ -4,7 +4,7 @@ import { AiOutlineSetting } from "react-icons/ai";
 
 const DiskMenuItem = ({ deviceId, diskName, device, diskCrypt, setLoaders }) => {
     // const [openDiskMenu, setOpenDiskMenu] = useState(false)
-    const [modalShow, setModalShow] = React.useState(false);
+    const [modalShow, setModalShow] = useState(false);
     const toggleDiskMenu = () => {
         if (device.online) {
             // setOpenDiskMenu(!openDiskMenu);

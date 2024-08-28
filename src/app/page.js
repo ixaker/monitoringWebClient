@@ -10,6 +10,8 @@ import AppLoader from './../components/Loader/AppLoader';
 import TurnOffAll from "@/components/TurnOffAll/TurnOffAll";
 import { sendTelegram } from "@/components/SocketConection";
 import Head from 'next/head';
+import Update from '@/components/UpdateButton/UpdateButton';
+import UpdateButton from '@/components/UpdateButton/UpdateButton';
 
 const DeviceUi = dynamic(() => import('@/components/DeviceUI/DeviceUI'));
 const Auth = dynamic(() => import('@/components/Login/Auth'));
@@ -47,6 +49,7 @@ const Home = () => {
 
             </>
           )}
+          <UpdateButton />
           <Auth />
         </div>
       </main>

@@ -13,22 +13,33 @@ const devicesSlice = createSlice({
 
             let updatedState;
             if (existingDeviceIndex !== -1) {
-                console.log('Update device in store');
-                return state.map((device, index) =>
-                    index === existingDeviceIndex ? newDevice : device
-                );
-
+                state[existingDeviceIndex] = newDevice;
             } else {
-                console.log('Add device in store');
-                return [...state, newDevice];
+                state.push(newDevice);
             }
 
-            saveStateToLocalStorage(updatedState);
+            state.sort((a, b) => {
+                const isALocked = a.disk && a.disk.some(disk => disk.locked === true);
+                const isBLocked = b.disk && b.disk.some(disk => disk.locked === true);
 
-            return updatedState;
+                if (a.name === 'RootServer1') return -1;
+                if (b.name === 'RootServer1') return 1;
+                if (a.name === 'RootServer2') return -1;
+                if (b.name === 'RootServer2') return 1;
+
+                if (isALocked && !isBLocked) return -1;
+                if (!isALocked && isBLocked) return 1;
+
+                return a.name.localeCompare(b.name);
+            });
+        },
+        removeDevice(state, action) {
+            const deviceId = action.payload;
+            return state.filter(device => device.id !== deviceId);
         },
     },
 });
 
-export const { addOrUpdateDevice } = devicesSlice.actions;
+
+export const { addOrUpdateDevice, removeDevice } = devicesSlice.actions;
 export default devicesSlice.reducer;

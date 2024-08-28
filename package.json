@@ -39,7 +39,8 @@
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-react": "^7.24.1",
     "eslint": "^8",
-    "eslint-config-next": "14.1.4",
+    "eslint-config-next": "^14.1.4",
+    "eslint-plugin-next": "^0.0.0",
     "nodemon": "^3.1.0",
     "vite-plugin-manifest": "^0.0.1",
     "webpack": "^5.91.0"

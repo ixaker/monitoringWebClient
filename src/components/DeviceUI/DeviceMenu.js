@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
 import './devicemenu.css'
-import { sendDataToServer } from './../../components/SocketConection';
+import { sendDataToServer, deleteDeviceFromServer } from './../../components/SocketConection';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { faPowerOff, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { faPowerOff, faRotateLeft, faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ConfirmationModal from '../confirmationModal/confirmationModal';
+import { useDispatch } from 'react-redux';
+import { removeDevice } from '../../rtk/DevicesSlice';
 
 
-const DeviceMenu = ({ deviceId, show, onHide, device }) => {
-
+const DeviceMenu = ({ deviceId, show, onHide, device, rename }) => {
+    const dispatch = useDispatch();
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [inputText, setInputText] = useState('')
 
     const handleOnClick = (command) => {
+        if (command === 'edit_name') {
+            console.log('rename');
+            onHide();
+            setTimeout(() => {
+                rename();
+            }, 300)
+
+
+            return;
+        }
         setShowConfirmation(true)
         setInputText(command)
     }
@@ -24,7 +36,16 @@ const DeviceMenu = ({ deviceId, show, onHide, device }) => {
         setShowConfirmation(false);
         onHide();
         console.log('sendDataToServer', inputText)
-        sendDataToServer({ inputText, deviceId });
+        if (inputText === 'delete_device') {
+            deleteDeviceFromServer(deviceId);
+            dispatch(removeDevice(deviceId));
+        } else if (inputText === 'edit_name') {
+            console.log('deviceMenu rename click');
+            rename()
+        } else {
+            sendDataToServer({ inputText, deviceId });
+        }
+
     }
 
     const MenuButton = ({ name, command, svg }) => {
@@ -59,17 +80,32 @@ const DeviceMenu = ({ deviceId, show, onHide, device }) => {
                 <Modal.Body
                     className="d-flex justify-content-evenly align-items-center flex-row"
                 >
-                    <MenuButton
-                        name={'вимкнути'}
-                        svg={<FontAwesomeIcon icon={faPowerOff} className='.btn-svg' />}
-                        command={'shutdown /s /t 0'}
-                    />
+                    {device.online ? (
+                        <>
+                            <MenuButton
+                                name={'вимкнути'}
+                                svg={<FontAwesomeIcon icon={faPowerOff} />}
+                                command={'shutdown /s /t 0'}
+                            />
 
-                    <MenuButton
-                        name={'перезавантажити'}
-                        command={'shutdown /r /t 0'}
-                        svg={<FontAwesomeIcon icon={faRotateLeft} className='.btn-svg' />}
-                    />
+                            <MenuButton
+                                name={'перезавантажити'}
+                                command={'shutdown /r /t 0'}
+                                svg={<FontAwesomeIcon icon={faRotateLeft} />}
+                            />
+                            <MenuButton
+                                name={'перейменувати'}
+                                command={'edit_name'}
+                                svg={<FontAwesomeIcon icon={faPenToSquare} />}
+                            />
+                        </>
+                    ) : (
+                        <MenuButton
+                            name={'видалити'}
+                            command={'delete_device'}
+                            svg={<FontAwesomeIcon icon={faTrash} />}
+                        />
+                    )}
                 </Modal.Body>
             </Modal>
             <ConfirmationModal

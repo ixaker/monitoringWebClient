@@ -1,8 +1,8 @@
 export default function manifest() {
   return {
-    name: 'Your App Name',
-    short_name: 'App',
-    description: 'A brief description of your app',
+    name: 'Monitoring QPart',
+    short_name: 'Monitoring QPart',
+    description: 'App for monitoring devices',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',

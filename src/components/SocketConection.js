@@ -159,3 +159,25 @@ export const sendTelegram = () => {
 }
 
 
+
+export const sendUpdateEvent = () => {
+  const payload = { command: 'git pull' };
+
+  if (socket && socket.connected) {
+    socket.emit('update', payload);
+    console.log('Update event sent');
+  } else {
+    console.error('Socket is not connected');
+  }
+};
+
+export const deleteDeviceFromServer = (deviceId) => {
+  console.log('deleteDevice');
+  if (socket && socket.connected) {
+    socket.emit('delete_device', { deviceId }, (response) => {
+      console.log('Response from server:', response);
+    });
+  } else {
+    console.error('Socket is not connected');
+  }
+};

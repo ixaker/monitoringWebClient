@@ -1,11 +1,11 @@
 import React from "react";
 import MyInput from "../UI/MyInput";
-import { Form, Button, InputGroup } from 'react-bootstrap'; 
+import { Form, Button, InputGroup } from 'react-bootstrap';
 import { BiCheck } from 'react-icons/bi';
 
-const NicknameInput = ({value, handleEditEnd, onChange, onBlur, hadleKeyDown}) => {
+const NicknameInput = ({ value, handleEditEnd, onChange, onBlur, hadleKeyDown }) => {
 
-    return(
+    return (
         <InputGroup className="">
             <Form.Control
                 type="text"
@@ -24,14 +24,14 @@ const NicknameInput = ({value, handleEditEnd, onChange, onBlur, hadleKeyDown}) =
             />
             {/* elements for password visibly */}
             <span className="input-group-text p-0" onClick={handleEditEnd}>
-                <BiCheck 
-                    onClick={handleEditEnd} 
+                <BiCheck
+                    onClick={handleEditEnd}
                     size={30}
                     color="green"
                 />
             </span>
-            
-            
+
+
         </InputGroup>
     )
 }

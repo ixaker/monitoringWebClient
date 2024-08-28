@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.firstRowContainer {
+  display: flex;
+}
+
+.infoContainer {
+  flex: 1;
+}
+
+.burgerContainer {
+  width: auto;
+}
+
+.deviceName {
+  font-weight: 400;
+  min-width: 70px;
+  display: flex;
+  margin-right: 10px;
+}
+
+.offline {
+  color: grey;
+}

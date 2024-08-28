@@ -1,15 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 // components
-import DeviceInputForm from './secondaryComponents/DeviceInputForm/DeviceInputForm';
-
-
-import GraphicContainer from '../GraphicContainer/GraphicContainer';
-
+// import DeviceInputForm from './secondaryComponents/DeviceInputForm/DeviceInputForm';
+// import GraphicContainer from '../GraphicContainer/GraphicContainer';
 import DeviceMenu from './DeviceMenu';
-import DiskMenuItem from './DiskMenuItem';
+// import DiskMenuItem from './DiskMenuItem';
 import DiskUI from './DiskUI';
 import DeviceInfo from './DeviceInfo';
+import style from './style.css';
 
 const DeviceUi = ({
     ip,
@@ -17,13 +15,24 @@ const DeviceUi = ({
     device,
     devices
 }) => {
-    const [modalShow, setModalShow] = React.useState(false);
+    const [modalShow, setModalShow] = useState({});
+    const [visibleDisks, setVisibleDisks] = useState({});
     const [loaders, setLoaders] = useState({});
+    const [renameDeviceId, setRenameDeviceId] = useState(null);
 
+    console.log('devices', devices);
     const handleShow = (deviceId) => {
         setModalShow(prevState => ({
             ...prevState,
             [deviceId]: true
+        }));
+    };
+
+    const toggleDiskVisibility = (deviceId) => {
+        console.log('toggleDiskVisibility', deviceId)
+        setVisibleDisks(prevState => ({
+            ...prevState,
+            [deviceId]: !prevState[deviceId]
         }));
     };
 
@@ -34,27 +43,37 @@ const DeviceUi = ({
         }));
     };
 
+    const rename = (deviceId) => {
+        setRenameDeviceId(deviceId)
+    }
+
     return (
         <div>
             {
                 devices.map(device => (
-                    <div key={device.id} className="position-relative container mb-4 border rounded p-3 pb-2 bg-dark-subtle align-items-center shadow" style={{ border: "2px solid red" }}>
+                    <div key={device.id} className="position-relative container mb-2 border rounded p-1 bg-dark-subtle align-items-center customShadow" >
                         <DeviceMenu
                             deviceId={device.id}
                             device={device}
                             show={modalShow[device.id] || false}
                             onHide={() => handleHide(device.id)}
+                            online={device.online}
+                            rename={() => rename(device.id)}
                         />
 
                         <DeviceInfo
                             device={device}
                             setModalShow={() => handleShow(device.id)}
+                            onClick={() => toggleDiskVisibility(device.id)}
+                            renameDeviceId={renameDeviceId}
+                            setRenameDeviceId={setRenameDeviceId}
                         />
 
-                        <p className="mb-1">{ip}</p>
-
-                        {device.disk.map((disk, index) => (
-                            <DiskUI key={`${device.id}-${disk.mounted}`} disk={disk} index={index} device={device} setLoaders={setLoaders} />
+                        {visibleDisks[device.id] && device.disk.map((disk, index) => (
+                            <React.Fragment key={`${device.id}-${disk.mounted}`}>
+                                <p className="mb-1">{ip}</p>
+                                <DiskUI key={`${device.id}-${disk.mounted}`} disk={disk} index={index} device={device} setLoaders={setLoaders} />
+                            </React.Fragment>
                         ))}
 
                         {/* <GraphicContainer data={device.CPU} name="CPU" /> */}
