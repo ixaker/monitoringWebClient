@@ -56,6 +56,7 @@ const DiskMenu = ({ diskName, deviceId, show, onHide, device, setModalShow, onHi
                         ? <UnlockDisk
                             deviceId={deviceId}
                             onHidePrevious={onHidePrevious}
+                            diskName={diskName}
                         />
                         // <ButtonAndPassword 
                         //     name={'розблокувати диск'} 

@@ -67,7 +67,7 @@ httpApp.use((req, res, next) => {
 });
 
 
-const staticFilesPath = '/root/dew/monitoringWebClient/public';
+const staticFilesPath = '/root/dew/monitoringWebClient/out';
 
 // Додайте middleware express.static() до вашого сервера HTTPS
 httpsApp.use(express.static(staticFilesPath));
