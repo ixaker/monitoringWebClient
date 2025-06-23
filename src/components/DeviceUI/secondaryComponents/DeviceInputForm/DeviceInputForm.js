@@ -1,13 +1,9 @@
 // Компонент з полям вводу та кнопкою відправки
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { addOrUpdateDevice } from '@/rtk/DevicesSlice';
-import io from 'socket.io-client';
-import { sendDataToServer, subscribeToResult } from '../../../SocketConection';
+import React, { useState, useEffect } from "react";
+import { sendDataToServer, subscribeToResult } from "../../../SocketConection";
 
 const DeviceInputForm = ({ deviceId }) => {
-  const dispatch = useDispatch();
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [result, setResult] = useState(null);
 
   const handleSendButtonClick = () => {
@@ -15,13 +11,13 @@ const DeviceInputForm = ({ deviceId }) => {
     console.log(deviceId, inputText);
     sendDataToServer({ inputText, deviceId });
     // Очищаємо поле вводу після натискання кнопки
-    setInputText('');
+    setInputText("");
   };
 
   useEffect(() => {
     // Підписка на події 'result'
     const unsubscribe = subscribeToResult((data) => {
-      console.log('Received result:', data);
+      console.log("Received result:", data);
       setResult(data);
     });
 
@@ -34,13 +30,14 @@ const DeviceInputForm = ({ deviceId }) => {
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
       }}
-      className="input-group mt-3">
+      className="input-group mt-3"
+    >
       <div
         style={{
-          display: 'flex',
+          display: "flex",
         }}
       >
         <input
@@ -57,7 +54,6 @@ const DeviceInputForm = ({ deviceId }) => {
           Send
         </button>
       </div>
-
     </div>
   );
 };

@@ -26,3 +26,7 @@
 .offline {
   color: grey;
 }
+
+.lockIcon {
+  margin-left: 16px;
+}
