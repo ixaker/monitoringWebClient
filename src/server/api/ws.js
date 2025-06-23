@@ -25,8 +25,6 @@ export default function createWebSocketServer() {
 
   // Створюємо веб-сокет сервер
   if (!io) {
-    
-
     const httpServer = createServer();
     io = new Server(httpServer, {
       /* options */
@@ -42,7 +40,7 @@ export default function createWebSocketServer() {
       });
 
       // Передаємо socket у функцію обробника
-      httpServer.on('request', (req, res) => {
+      httpServer.on("request", (req, res) => {
         handler(req, res, socket);
       });
     });

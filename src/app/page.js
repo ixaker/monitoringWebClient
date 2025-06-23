@@ -1,23 +1,20 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux';
-import dynamic from 'next/dynamic';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import dynamic from "next/dynamic";
+import "bootstrap/dist/css/bootstrap.min.css";
 import SocketConection from "@/components/SocketConection";
-import AppLoader from './../components/Loader/AppLoader';
+import AppLoader from "./../components/Loader/AppLoader";
 import TurnOffAll from "@/components/TurnOffAll/TurnOffAll";
-import { sendTelegram } from "@/components/SocketConection";
-import Head from 'next/head';
-import Update from '@/components/UpdateButton/UpdateButton';
-import UpdateButton from '@/components/UpdateButton/UpdateButton';
+import Head from "next/head";
+import UpdateButton from "@/components/UpdateButton/UpdateButton";
 
-const DeviceUi = dynamic(() => import('@/components/DeviceUI/DeviceUI'));
-const Auth = dynamic(() => import('@/components/Login/Auth'));
+const DeviceUi = dynamic(() => import("@/components/DeviceUI/DeviceUI"));
+const Auth = dynamic(() => import("@/components/Login/Auth"));
 
 const Home = () => {
-  const devices = useSelector(state => state.devices)
+  const devices = useSelector((state) => state.devices);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,22 +28,18 @@ const Home = () => {
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="container mx-auto py-4" style={{ maxWidth: '576px', minWidth: '320px' }}>
+      <main
+        className="container mx-auto py-4"
+        style={{ maxWidth: "576px", minWidth: "320px" }}
+      >
         <SocketConection />
         <div className="list-group">
-
-
           {loading ? (
             <AppLoader show={loading} />
           ) : (
             <>
               <TurnOffAll />
-              {/* <MyButton buttonText={'Відправити повідомлення в телеграм'} handleOnClick={sendTelegram}/> */}
-              <DeviceUi
-                devices={devices}
-
-              />
-
+              <DeviceUi devices={devices} />
             </>
           )}
           <UpdateButton />
@@ -55,6 +48,6 @@ const Home = () => {
       </main>
     </>
   );
-}
+};
 
 export default React.memo(Home);
