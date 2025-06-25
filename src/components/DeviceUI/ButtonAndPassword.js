@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Button } from "react-bootstrap";
 
 const ButtonAndPassword = ({
@@ -10,7 +10,7 @@ const ButtonAndPassword = ({
   handleOnClick,
 }) => {
   const isPasswordValid = input ? password.length >= 8 : true;
-  console.log("HI");
+
   return (
     <div className="">
       <Form.Group className="mb-2">

@@ -5,10 +5,10 @@ import { sendDataToServer } from "../SocketConection";
 
 const ActivationOff = ({ deviceId, diskName, onHidePrevious, device }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const inputText = `Disable-BitLocker -MountPoint "${diskName}"`;
 
   const handleConfirm = () => {
-    sendDataToServer({ inputText, deviceId });
+    const command = `Disable-BitLocker -MountPoint "${diskName}"`;
+    sendDataToServer({ inputText: command, deviceId });
     setShowConfirmation(false);
     onHidePrevious(); //close parent modal
   };
@@ -29,7 +29,7 @@ const ActivationOff = ({ deviceId, diskName, onHidePrevious, device }) => {
         show={showConfirmation}
         onHide={() => setShowConfirmation(false)}
         onConfirm={() => handleConfirm()}
-        title="Розблокувати диск"
+        title="Розблокувати диск?"
         message={`Дешифрування диску ${diskName.slice(0, -1)} на компьютері ${
           device.name
         } може зайняти певний час`}

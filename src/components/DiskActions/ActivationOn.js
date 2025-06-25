@@ -15,19 +15,32 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
   const isPasswordMatch = secondValue === "" ? "" : secondValue === value;
   const passwordsMatchMessage = !isPasswordMatch ? "Паролі не співпадають" : "";
   //text of command for device
-  const inputText = `Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${value}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`;
 
   const handleConfirm = () => {
-    sendDataToServer({ inputText, deviceId });
+    const command = `Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${value}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`;
+    setValue("");
+    setSecondValue("");
+    sendDataToServer({ inputText: command, deviceId });
     setShowConfirmation(false);
     onHidePrevious(); //close parent modal
     setLoaders((prevState) => ({
       ...prevState,
       [deviceId]: true,
     }));
+
+    const fallbackTimer = setTimeout(() => {
+      setLoaders((prevState) => ({
+        ...prevState,
+        [deviceId]: false,
+      }));
+    }, 4000);
+
+    return () => {
+      clearTimeout(fallbackTimer);
+    };
   };
 
-  const handleOnClick = (inputText) => {
+  const handleOnClick = () => {
     setShowConfirmation(true);
   };
 
@@ -61,7 +74,7 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
         message={`Ви хочете зашифрувати диск ${diskName.slice(
           0,
           -1
-        )}. Переконайтесь, що пароль для шифрування надійно збережений.`}
+        )}. Переконайтесь, що пароль для шифрування надійно збережений!`}
         title="Підтвердження шифрування"
       />
     </>
