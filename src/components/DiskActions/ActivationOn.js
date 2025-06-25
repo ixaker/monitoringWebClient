@@ -15,12 +15,10 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
   const isPasswordMatch = secondValue === "" ? "" : secondValue === value;
   const passwordsMatchMessage = !isPasswordMatch ? "Паролі не співпадають" : "";
   //text of command for device
+  const inputText = `Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${value}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`;
 
   const handleConfirm = () => {
-    const command = `Enable-BitLocker -MountPoint "${diskName}" -PasswordProtector -Password (ConvertTo-SecureString -String "${value}" -AsPlainText -Force) -UsedSpaceOnly -SkipHardwareTest`;
-    setValue("");
-    setSecondValue("");
-    sendDataToServer({ inputText: command, deviceId });
+    sendDataToServer({ inputText, deviceId });
     setShowConfirmation(false);
     onHidePrevious(); //close parent modal
     setLoaders((prevState) => ({
@@ -40,7 +38,7 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
     };
   };
 
-  const handleOnClick = () => {
+  const handleOnClick = (inputText) => {
     setShowConfirmation(true);
   };
 

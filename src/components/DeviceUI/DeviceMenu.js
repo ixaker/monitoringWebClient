@@ -35,7 +35,6 @@ const DeviceMenu = ({
 
   const handleOnClick = (command) => {
     if (command === "edit_name") {
-      console.log("rename");
       onHide();
       setTimeout(() => {
         rename();
@@ -55,8 +54,6 @@ const DeviceMenu = ({
   };
 
   const handleConfirm = () => {
-    console.log("sendDataToServer from deviceMenu");
-    console.log("sendDataToServer from deviceMenu", deviceId);
     setShowConfirmation(false);
     onHide();
     console.log("sendDataToServer", inputText);
@@ -64,7 +61,6 @@ const DeviceMenu = ({
       deleteDeviceFromServer(deviceId);
       dispatch(removeDevice(deviceId));
     } else if (inputText === "edit_name") {
-      console.log("deviceMenu rename click");
       rename();
     } else {
       sendDataToServer({ inputText, deviceId });
@@ -109,7 +105,7 @@ const DeviceMenu = ({
                     name={"вимкнути"}
                     svg={<FontAwesomeIcon icon={faPowerOff} />}
                     command={"shutdown /s /t 0"}
-                    style={{ flex: 1 }} /* Равная ширина */
+                    style={{ flex: 1 }}
                   />
                   <MenuButton
                     name={"перезавантажити"}
