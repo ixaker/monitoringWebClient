@@ -13,6 +13,9 @@ const SocketConection = ({}) => {
   const [connected, setConnected] = useState(false);
   let tokenFromStore = useSelector((state) => state.token.token);
   let tokenFromLocal;
+  const dotenv_domain = process.env.NEXT_PUBLIC_DOTENV_DOMAIN;
+  const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT;
+
   if (typeof window !== "undefined") {
     tokenFromLocal = localStorage.getItem("token");
   }
@@ -21,7 +24,7 @@ const SocketConection = ({}) => {
   const connectSocket = () => {
     console.log("ConnectSocket...");
     const authToken = token || "no token";
-    socket = io("wss://monitoring.qpart.com.ua:5000", {
+    socket = io(`wss://${dotenv_domain}:${dotenv_port}`, {
       transport: ["websocket"],
       auth: { token: authToken },
       extraHeaders: { type: "webclient" },
@@ -32,7 +35,7 @@ const SocketConection = ({}) => {
         toast.error("Сервер не відповідає");
         console.log("Сервер не відповідає");
       }
-    }, 5000);
+    }, `${dotenv_port}`);
 
     socket.on("unauthorized", handleUnauthorized);
     socket.on("info", handleInfo);

@@ -1,12 +1,17 @@
 export const sendAuthData = async (data, setShow, setButtonDisabled) => {
+  const dotenv_domain = process.env.NEXT_PUBLIC_DOTENV_DOMAIN;
+  const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT;
   try {
-    const response = await fetch("https://monitoring.qpart.com.ua:5000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `https://${dotenv_domain}:${dotenv_port}/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     if (!response.ok) {
       if (response.status === 401) {
