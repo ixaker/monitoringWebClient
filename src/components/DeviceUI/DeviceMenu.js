@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./devicemenu.css";
 import {
   sendDataToServer,
@@ -18,6 +18,7 @@ import ConfirmationModal from "../confirmationModal/confirmationModal";
 import { useDispatch } from "react-redux";
 import { removeDevice } from "../../rtk/DevicesSlice";
 import EncryptAllModal from "../DiskActions/EncryptAllModal";
+import DecryptAllModal from "../DiskActions/DecryptAllModal";
 
 const DeviceMenu = ({
   deviceId,
@@ -32,6 +33,7 @@ const DeviceMenu = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [inputText, setInputText] = useState("");
   const [showEncryptAllModal, setShowEncryptAllModal] = useState(false);
+  const [showDecryptAllModal, setShowDecryptAllModal] = useState(false);
 
   const handleOnClick = (command) => {
     if (command === "edit_name") {
@@ -46,6 +48,12 @@ const DeviceMenu = ({
     if (command === "encrypt_all") {
       setShowEncryptAllModal(true); // Показываем модальное окно шифрования
       onHide(); // Закрываем текущее меню
+      return;
+    }
+
+    if (command === "decrypt_all") {
+      setShowDecryptAllModal(true);
+      onHide();
       return;
     }
 
@@ -82,6 +90,39 @@ const DeviceMenu = ({
       </div>
     );
   };
+
+  // Проверяем состояние дисков для определения нужной кнопки
+  const hasEncryptedDisks = useMemo(() => {
+    return device.disk?.some((disk) => disk.mounted !== "C:" && disk.crypt);
+  }, [device.disk]);
+
+  const hasUnencryptedDisks = useMemo(() => {
+    return device.disk?.some((disk) => disk.mounted !== "C:" && !disk.crypt);
+  }, [device.disk]);
+
+  const renderEncryptDecryptButton = () => {
+    if (hasUnencryptedDisks) {
+      return (
+        <MenuButton
+          name={"зашифрувати"}
+          command={"encrypt_all"}
+          svg={<FontAwesomeIcon icon={faGear} />}
+          style={{ flex: 1 }}
+        />
+      );
+    } else if (hasEncryptedDisks) {
+      return (
+        <MenuButton
+          name={"дешифрувати"}
+          command={"decrypt_all"}
+          svg={<FontAwesomeIcon icon={faGear} />}
+          style={{ flex: 1 }}
+        />
+      );
+    }
+    return null; // Если все диски (кроме C:) в одном состоянии
+  };
+
   return (
     <>
       <Modal
@@ -121,12 +162,7 @@ const DeviceMenu = ({
                     svg={<FontAwesomeIcon icon={faPenToSquare} />}
                     style={{ flex: 1 }}
                   />
-                  <MenuButton
-                    name={"зашифрувати"}
-                    command={"encrypt_all"}
-                    svg={<FontAwesomeIcon icon={faGear} />}
-                    style={{ flex: 1 }}
-                  />
+                  {renderEncryptDecryptButton()}
                 </div>
               </>
             ) : (
@@ -142,6 +178,15 @@ const DeviceMenu = ({
       <EncryptAllModal
         show={showEncryptAllModal}
         onHide={() => setShowEncryptAllModal(false)}
+        deviceId={deviceId}
+        disks={device.disk}
+        device={device}
+        loaders={loaders}
+        setLoaders={setLoaders}
+      />
+      <DecryptAllModal
+        show={showDecryptAllModal}
+        onHide={() => setShowDecryptAllModal(false)}
         deviceId={deviceId}
         disks={device.disk}
         device={device}
