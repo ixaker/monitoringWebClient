@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./devicemenu.css";
 import {
   sendDataToServer,
@@ -18,6 +18,7 @@ import ConfirmationModal from "../confirmationModal/confirmationModal";
 import { useDispatch } from "react-redux";
 import { removeDevice } from "../../rtk/DevicesSlice";
 import EncryptAllModal from "../DiskActions/EncryptAllModal";
+import DecryptAllModal from "../DiskActions/DecryptAllModal";
 
 const DeviceMenu = ({
   deviceId,
@@ -32,10 +33,10 @@ const DeviceMenu = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [inputText, setInputText] = useState("");
   const [showEncryptAllModal, setShowEncryptAllModal] = useState(false);
+  const [showDecryptAllModal, setShowDecryptAllModal] = useState(false);
 
   const handleOnClick = (command) => {
     if (command === "edit_name") {
-      console.log("rename");
       onHide();
       setTimeout(() => {
         rename();
@@ -50,13 +51,17 @@ const DeviceMenu = ({
       return;
     }
 
+    if (command === "decrypt_all") {
+      setShowDecryptAllModal(true);
+      onHide();
+      return;
+    }
+
     setShowConfirmation(true);
     setInputText(command);
   };
 
   const handleConfirm = () => {
-    console.log("sendDataToServer from deviceMenu");
-    console.log("sendDataToServer from deviceMenu", deviceId);
     setShowConfirmation(false);
     onHide();
     console.log("sendDataToServer", inputText);
@@ -64,7 +69,6 @@ const DeviceMenu = ({
       deleteDeviceFromServer(deviceId);
       dispatch(removeDevice(deviceId));
     } else if (inputText === "edit_name") {
-      console.log("deviceMenu rename click");
       rename();
     } else {
       sendDataToServer({ inputText, deviceId });
@@ -86,6 +90,39 @@ const DeviceMenu = ({
       </div>
     );
   };
+
+  // Проверяем состояние дисков для определения нужной кнопки
+  const hasEncryptedDisks = useMemo(() => {
+    return device.disk?.some((disk) => disk.mounted !== "C:" && disk.crypt);
+  }, [device.disk]);
+
+  const hasUnencryptedDisks = useMemo(() => {
+    return device.disk?.some((disk) => disk.mounted !== "C:" && !disk.crypt);
+  }, [device.disk]);
+
+  const renderEncryptDecryptButton = () => {
+    if (hasUnencryptedDisks) {
+      return (
+        <MenuButton
+          name={"зашифрувати"}
+          command={"encrypt_all"}
+          svg={<FontAwesomeIcon icon={faGear} />}
+          style={{ flex: 1 }}
+        />
+      );
+    } else if (hasEncryptedDisks) {
+      return (
+        <MenuButton
+          name={"дешифрувати"}
+          command={"decrypt_all"}
+          svg={<FontAwesomeIcon icon={faGear} />}
+          style={{ flex: 1 }}
+        />
+      );
+    }
+    return null; // Если все диски (кроме C:) в одном состоянии
+  };
+
   return (
     <>
       <Modal
@@ -109,7 +146,7 @@ const DeviceMenu = ({
                     name={"вимкнути"}
                     svg={<FontAwesomeIcon icon={faPowerOff} />}
                     command={"shutdown /s /t 0"}
-                    style={{ flex: 1 }} /* Равная ширина */
+                    style={{ flex: 1 }}
                   />
                   <MenuButton
                     name={"перезавантажити"}
@@ -125,12 +162,7 @@ const DeviceMenu = ({
                     svg={<FontAwesomeIcon icon={faPenToSquare} />}
                     style={{ flex: 1 }}
                   />
-                  <MenuButton
-                    name={"зашифрувати"}
-                    command={"encrypt_all"}
-                    svg={<FontAwesomeIcon icon={faGear} />}
-                    style={{ flex: 1 }}
-                  />
+                  {renderEncryptDecryptButton()}
                 </div>
               </>
             ) : (
@@ -146,6 +178,15 @@ const DeviceMenu = ({
       <EncryptAllModal
         show={showEncryptAllModal}
         onHide={() => setShowEncryptAllModal(false)}
+        deviceId={deviceId}
+        disks={device.disk}
+        device={device}
+        loaders={loaders}
+        setLoaders={setLoaders}
+      />
+      <DecryptAllModal
+        show={showDecryptAllModal}
+        onHide={() => setShowDecryptAllModal(false)}
         deviceId={deviceId}
         disks={device.disk}
         device={device}

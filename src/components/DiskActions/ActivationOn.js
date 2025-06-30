@@ -25,6 +25,17 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
       ...prevState,
       [deviceId]: true,
     }));
+
+    const fallbackTimer = setTimeout(() => {
+      setLoaders((prevState) => ({
+        ...prevState,
+        [deviceId]: false,
+      }));
+    }, 4000);
+
+    return () => {
+      clearTimeout(fallbackTimer);
+    };
   };
 
   const handleOnClick = (inputText) => {
@@ -61,7 +72,7 @@ const ActivationOn = ({ deviceId, diskName, onHidePrevious, setLoaders }) => {
         message={`Ви хочете зашифрувати диск ${diskName.slice(
           0,
           -1
-        )}. Переконайтесь, що пароль для шифрування надійно збережений.`}
+        )}. Переконайтесь, що пароль для шифрування надійно збережений!`}
         title="Підтвердження шифрування"
       />
     </>

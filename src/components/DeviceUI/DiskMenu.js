@@ -16,16 +16,14 @@ const DiskMenu = ({
   setLoaders,
 }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [inpText, setInpText] = useState("");
 
   const devices = useSelector((state) => state.devices);
   const thisDevice = devices.find((device) => device.id === deviceId);
   const thisDisk = thisDevice.disk.find((disk) => disk.mounted === diskName);
 
   const handleConfirm = () => {
-    console.log("handleConfirm in diskMenu");
-    console.log(inpText);
-    sendDataToServer({ inputText: inpText, deviceId, setLoaders });
+    const command = "";
+    sendDataToServer({ inputText: command, deviceId, setLoaders });
     setShowConfirmation(false);
     onHidePrevious();
   };

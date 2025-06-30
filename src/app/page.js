@@ -9,6 +9,7 @@ import AppLoader from "./../components/Loader/AppLoader";
 import TurnOffAll from "@/components/TurnOffAll/TurnOffAll";
 import Head from "next/head";
 import UpdateButton from "@/components/UpdateButton/UpdateButton";
+import UnlockAllDisks from "@/components/UnlockAllDisks/UnlockAllDisks";
 
 const DeviceUi = dynamic(() => import("@/components/DeviceUI/DeviceUI"));
 const Auth = dynamic(() => import("@/components/Login/Auth"));
@@ -39,6 +40,7 @@ const Home = () => {
           ) : (
             <>
               <TurnOffAll />
+              <UnlockAllDisks devices={devices} />
               <DeviceUi devices={devices} />
             </>
           )}

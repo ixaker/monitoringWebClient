@@ -17,7 +17,6 @@ const DeviceUi = ({ ip, devices }) => {
   };
 
   const toggleDiskVisibility = (deviceId) => {
-    console.log("toggleDiskVisibility", deviceId);
     setVisibleDisks((prevState) => ({
       ...prevState,
       [deviceId]: !prevState[deviceId],

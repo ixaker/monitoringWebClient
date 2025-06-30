@@ -11,10 +11,10 @@ const UnlockDisk = ({ deviceId, diskName, onHidePrevious }) => {
   const isPasswordValid =
     value.length >= 8 ? true : value.length > 0 ? false : "";
   //text of command for device
-  const inputText = `Unlock-BitLocker -MountPoint "${diskName}" -Password (ConvertTo-SecureString -String "${value}" -AsPlainText -Force)`;
 
   const handleConfirm = () => {
-    sendDataToServer({ inputText, deviceId });
+    const command = `Unlock-BitLocker -MountPoint "${diskName}" -Password (ConvertTo-SecureString -String "${value}" -AsPlainText -Force)`;
+    sendDataToServer({ inputText: command, deviceId });
     setShowConfirmation(false);
     onHidePrevious(); //close parent modal
   };
