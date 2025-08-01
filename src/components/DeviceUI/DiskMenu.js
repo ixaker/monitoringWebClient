@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import Modal from "react-bootstrap/Modal";
-import UnlockDisk from "../DiskActions/UnlockDisk";
-import ActivationOff from "../DiskActions/ActivationOff";
-import ActivationOn from "../DiskActions/ActivationOn";
-import ConfirmationModal from "../confirmationModal/confirmationModal";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import Modal from 'react-bootstrap/Modal';
+import UnlockDisk from '../DiskActions/UnlockDisk';
+import ActivationOff from '../DiskActions/ActivationOff';
+import ActivationOn from '../DiskActions/ActivationOn';
+import ConfirmationModal from '../confirmationModal/confirmationModal';
 
 const DiskMenu = ({
   diskName,
@@ -22,7 +22,7 @@ const DiskMenu = ({
   const thisDisk = thisDevice.disk.find((disk) => disk.mounted === diskName);
 
   const handleConfirm = () => {
-    const command = "";
+    const command = '';
     sendDataToServer({ inputText: command, deviceId, setLoaders });
     setShowConfirmation(false);
     onHidePrevious();

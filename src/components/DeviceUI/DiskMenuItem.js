@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import DiskMenu from "./DiskMenu";
-import { AiOutlineSetting } from "react-icons/ai";
+import React, { useState } from 'react';
+import DiskMenu from './DiskMenu';
+import { AiOutlineSetting } from 'react-icons/ai';
 
 const DiskMenuItem = ({ deviceId, diskName, device, setLoaders }) => {
   const [modalShow, setModalShow] = useState(false);

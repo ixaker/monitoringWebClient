@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Modal, Form, ProgressBar } from "react-bootstrap";
-import { sendDataToServer } from "../SocketConection";
-import MyInput from "../UI/MyInput";
-import MyButton from "../UI/MyButton";
-import ConfirmationModal from "../confirmationModal/confirmationModal";
+import React, { useState, useEffect } from 'react';
+import { Modal, Form, ProgressBar } from 'react-bootstrap';
+import { sendDataToServer } from '../SocketConection';
+import MyInput from '../UI/MyInput';
+import MyButton from '../UI/MyButton';
+import ConfirmationModal from '../confirmationModal/confirmationModal';
 
 const EncryptAllModal = ({
   show,
@@ -14,29 +14,30 @@ const EncryptAllModal = ({
   loaders,
   setLoaders,
 }) => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentDisk, setCurrentDisk] = useState(null);
 
   // Проверка наличия дисков для шифрования (кроме C:)
-  const isDiskEncryptable = (disk) => disk.mounted !== "C:" && !disk.crypt;
+  const isDiskEncryptable = (disk) => disk.mounted !== 'C:' && !disk.crypt;
   const disksToEncrypt = disks.filter(isDiskEncryptable);
   const hasDisksToEncrypt = disksToEncrypt.length > 0;
 
   // Проверка валидности пароля
   const isPasswordValid =
-    password.length >= 8 ? true : password.length > 0 ? false : "";
-  const doPasswordsMatch = password === confirmPassword;
+    password.length >= 8 ? true : password.length > 0 ? false : '';
+  const doPasswordsMatch =
+    confirmPassword === '' ? '' : confirmPassword === password;
 
   // Проверка всевозможных важриантов при которых кнопка будет отключена
   const isButtonDisabled =
     !hasDisksToEncrypt ||
     !isPasswordValid ||
     !doPasswordsMatch ||
-    password === "" ||
-    confirmPassword === "";
+    password === '' ||
+    confirmPassword === '';
 
   // Эффект для сброса состояния при закрытии
   useEffect(() => {
@@ -47,8 +48,8 @@ const EncryptAllModal = ({
   }, [show]);
 
   const handleConfirmEncryption = () => {
-    setPassword("");
-    setConfirmPassword("");
+    setPassword('');
+    setConfirmPassword('');
     setShowConfirmation(false);
     setLoaders((prev) => ({ ...prev, [deviceId]: true }));
     setProgress(0);
@@ -120,7 +121,7 @@ const EncryptAllModal = ({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   isPasswordValid={isPasswordValid}
-                  placeholderText={"введіть пароль (не менше 8 символів)"}
+                  placeholderText={'введіть пароль (не менше 8 символів)'}
                   autoFocus={true}
                 />
                 {password.length > 0 && !isPasswordValid && (
@@ -131,7 +132,8 @@ const EncryptAllModal = ({
                 <MyInput
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholderText={"повторіть пароль"}
+                  placeholderText={'повторіть пароль'}
+                  isPasswordValid={doPasswordsMatch}
                   isInvalid={confirmPassword.length > 0 && !doPasswordsMatch}
                 />
                 {confirmPassword.length > 0 && !doPasswordsMatch && (
