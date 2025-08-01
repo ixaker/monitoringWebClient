@@ -2,5 +2,5 @@
 
 export default {
   reactStrictMode: false,
-  // output: "export",
+  output: "export",
 };
