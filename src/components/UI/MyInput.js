@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Form, InputGroup } from "react-bootstrap";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from 'react';
+import { Form, InputGroup } from 'react-bootstrap';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const MyInput = ({
   value,
@@ -19,15 +19,15 @@ const MyInput = ({
       <Form.Control
         className={`form-control-lg disk-input ${
           isPasswordValid
-            ? "is-valid"
+            ? 'is-valid'
             : isPasswordValid === false
-            ? "is-invalid"
-            : ""
+            ? 'is-invalid'
+            : ''
         }`}
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         value={value}
         onChange={onChange}
-        placeholder={placeholderText || "введіть пароль (не менше 8 символів)"}
+        placeholder={placeholderText || 'введіть пароль (не менше 8 символів)'}
         autoComplete="off"
         isValid={isPasswordValid === true}
         isInvalid={isPasswordValid === false}
