@@ -13,8 +13,8 @@ const SocketConection = ({}) => {
   const [connected, setConnected] = useState(false);
   let tokenFromStore = useSelector((state) => state.token.token);
   let tokenFromLocal;
-  const dotenv_domain = process.env.NEXT_PUBLIC_DOTENV_DOMAIN;
-  const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT;
+  // const dotenv_domain = process.env.NEXT_PUBLIC_DOTENV_DOMAIN;
+  // const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT;
 
   if (typeof window !== 'undefined') {
     tokenFromLocal = localStorage.getItem('token');
@@ -35,7 +35,7 @@ const SocketConection = ({}) => {
         toast.error('Сервер не відповідає');
         console.log('Сервер не відповідає');
       }
-    }, `${dotenv_port}`);
+    }, 5000);
 
     socket.on('unauthorized', handleUnauthorized);
     socket.on('info', handleInfo);
