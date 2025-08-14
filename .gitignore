@@ -38,3 +38,6 @@ next-env.d.ts
 
 #index js with secret params
 index.js
+
+# vs code
+.vs

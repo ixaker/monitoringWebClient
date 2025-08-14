@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
-import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ConfirmationModal from "../confirmationModal/confirmationModal";
-import Loader from "../Loader/Loader";
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ConfirmationModal from '../confirmationModal/confirmationModal';
+import Loader from '../Loader/Loader';
+import { useDispatch } from 'react-redux';
+import { clearToken } from '@/rtk/TokenSlice';
 
 const LogOut = ({ setShow }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [buttonDisable, setButtonDisable] = useState(false);
+  const dispatch = useDispatch();
 
   const handleLogOut = () => {
     setShowConfirmation(true);
@@ -16,9 +19,9 @@ const LogOut = ({ setShow }) => {
   const handleConfirm = () => {
     setShow(true);
     setShowConfirmation(false);
-    console.log("handleConfirm logOut");
+    console.log('handleConfirm logOut');
     setButtonDisable(true);
-    deleteAuthToken();
+    dispatch(clearToken());
   };
 
   return (
@@ -27,7 +30,7 @@ const LogOut = ({ setShow }) => {
         variant="dark"
         size="lg"
         onClick={handleLogOut}
-        className="mb-4 d-flex flex-row align-items-center justify-content-center"
+        className="mb-4 d-flex flex-row align-items-center justify-content-center w-100"
         disabled={buttonDisable}
       >
         <span className="my-3 me-3">Вийти</span>
@@ -38,9 +41,8 @@ const LogOut = ({ setShow }) => {
           ) : (
             <FontAwesomeIcon
               icon={faArrowRightFromBracket}
-              className=""
               style={{
-                fontSize: "20px",
+                fontSize: '20px',
               }}
             />
           )}
@@ -59,7 +61,7 @@ const LogOut = ({ setShow }) => {
 
 export default LogOut;
 
-export const deleteAuthToken = () => {
-  console.log("deleteAuthToken");
-  localStorage.removeItem("token");
-};
+// export const deleteAuthToken = () => {
+//   console.log('deleteAuthToken');
+//   localStorage.removeItem('token');
+// };

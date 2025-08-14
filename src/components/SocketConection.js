@@ -4,8 +4,9 @@ import io from 'socket.io-client';
 import { addOrUpdateDevice } from '@/rtk/DevicesSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteAuthToken } from './Login/LogOut';
+// import { deleteAuthToken } from './Login/LogOut';
 import 'react-toastify/dist/ReactToastify.css';
+import { clearToken } from '@/rtk/TokenSlice';
 
 let socket;
 const SocketConection = ({}) => {
@@ -20,7 +21,6 @@ const SocketConection = ({}) => {
     tokenFromLocal = localStorage.getItem('token');
   }
   let token = tokenFromStore || tokenFromLocal;
-
   const connectSocket = () => {
     console.log('ConnectSocket...');
     const authToken = token || 'no token';
@@ -46,7 +46,7 @@ const SocketConection = ({}) => {
     function handleUnauthorized(data) {
       console.log('Unauthorized access:', data.message);
       console.log('Status code:', data.status);
-      deleteAuthToken();
+      dispatch(clearToken());
     }
 
     function handleInfo(data) {
@@ -180,4 +180,47 @@ export const deleteDeviceFromServer = (deviceId) => {
   } else {
     console.error('Socket is not connected');
   }
+};
+
+export const sendNewPassword = (password) => {
+  return new Promise((resolve, reject) => {
+    // Проверка соединения
+    if (!socket?.connected) {
+      toast.error(`З'єднання з сервером відсутнє`);
+      return reject(new Error('Socket not connected'));
+    }
+
+    // 3. Таймаут
+    const timeout = setTimeout(() => {
+      toast.error('Сервер не відповідає, спробуйте пізніше');
+      reject(new Error('Timeout'));
+    }, 10000);
+
+    // 4. Отправка запроса
+    socket.emit('change_password', { newPassword: password }, (response) => {
+      clearTimeout(timeout);
+
+      // 5. Проверка ответа
+      if (!response) {
+        toast.error('Не вдалося змінити пароль (немає відповіді)');
+        return reject(new Error('No response'));
+      }
+
+      // 6. Явная проверка success === false
+      if (response.success === false) {
+        toast.error(response.message || 'Помилка при зміні паролю');
+        return reject(new Error(response.message || 'Password change failed'));
+      }
+
+      // 7. Успешный случай
+      if (response.success) {
+        toast.success('Пароль успішно змінено!');
+        return resolve(response);
+      }
+
+      // 8. Неожиданный формат ответа
+      toast.error('Невідома помилка');
+      reject(new Error('Invalid response format'));
+    });
+  });
 };
