@@ -1,6 +1,7 @@
 // deploy.js
 
-const { stopApp, reloadApp, deployViaSSH } = require("./api.deploy.js");
+// const { stopApp, reloadApp, deployViaSSH } = require("./api.deploy.js");
+import { stopApp, reloadApp, deployViaSSH } from './api.deploy.js';
 
 (async () => {
   try {
@@ -10,9 +11,9 @@ const { stopApp, reloadApp, deployViaSSH } = require("./api.deploy.js");
     await deployViaSSH();
     await reloadApp();
 
-    console.log("🎉 Деплой завершён!");
+    console.log('🎉 Деплой завершён!');
   } catch (err) {
-    console.error("💥 Ошибка деплоя:", err);
+    console.error('💥 Ошибка деплоя:', err);
     process.exit(1);
   }
 })();
