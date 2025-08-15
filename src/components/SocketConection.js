@@ -1,12 +1,12 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
 import { addOrUpdateDevice } from '@/rtk/DevicesSlice';
-import { ToastContainer, toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import io from 'socket.io-client';
 // import { deleteAuthToken } from './Login/LogOut';
-import 'react-toastify/dist/ReactToastify.css';
 import { clearToken } from '@/rtk/TokenSlice';
+import 'react-toastify/dist/ReactToastify.css';
 
 let socket;
 const SocketConection = ({}) => {
@@ -14,8 +14,8 @@ const SocketConection = ({}) => {
   const [connected, setConnected] = useState(false);
   let tokenFromStore = useSelector((state) => state.token.token);
   let tokenFromLocal;
-  // const dotenv_domain = process.env.NEXT_PUBLIC_DOTENV_DOMAIN;
-  // const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT;
+  const dotenv_domain = process.env.NEXT_PUBLIC_DOTENV_DOMAIN;
+  const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT;
 
   if (typeof window !== 'undefined') {
     tokenFromLocal = localStorage.getItem('token');
@@ -24,7 +24,7 @@ const SocketConection = ({}) => {
   const connectSocket = () => {
     console.log('ConnectSocket...');
     const authToken = token || 'no token';
-    socket = io(`wss://blockserver.qpart.com.ua:443`, {
+    socket = io(`wss://${dotenv_domain}:${dotenv_port}`, {
       transport: ['websocket'],
       auth: { token: authToken },
       extraHeaders: { type: 'webclient' },
