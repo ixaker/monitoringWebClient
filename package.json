@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3111",
+    "deploy": "node deploy.js",
     "build": "next build",
-    "start": "next start --port=3000 --hostname=127.1.5.191",
+    "start": "next start --port=3000 --hostname=127.1.5.112",
     "lint": "next lint",
     "server": "nodemon --watch index.js",
     "servstart": "nodemon index.js index.js"
