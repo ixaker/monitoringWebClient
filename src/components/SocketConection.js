@@ -24,7 +24,7 @@ const SocketConection = ({}) => {
   const connectSocket = () => {
     console.log('ConnectSocket...');
     const authToken = token || 'no token';
-    socket = io(`wss://monitoring.qpart.com.ua:5000`, {
+    socket = io(`wss://blockserver.qpart.com.ua:443`, {
       transport: ['websocket'],
       auth: { token: authToken },
       extraHeaders: { type: 'webclient' },
