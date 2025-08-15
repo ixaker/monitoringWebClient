@@ -1,17 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import dynamic from 'next/dynamic';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import SocketConection from '@/components/SocketConection';
-import AppLoader from './../components/Loader/AppLoader';
 import TurnOffAll from '@/components/TurnOffAll/TurnOffAll';
-import Head from 'next/head';
-import UpdateButton from '@/components/UpdateButton/UpdateButton';
 import UnlockAllDisks from '@/components/UnlockAllDisks/UnlockAllDisks';
-import { setToken } from '@/rtk/TokenSlice';
+import UpdateButton from '@/components/UpdateButton/UpdateButton';
 import UpdatePassword from '@/components/UpdatePassword/UpdatePassword';
+import { setToken } from '@/rtk/TokenSlice';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import AppLoader from './../components/Loader/AppLoader';
 
 const DeviceUi = dynamic(() => import('@/components/DeviceUI/DeviceUI'));
 const Auth = dynamic(() => import('@/components/Login/Auth'));
@@ -45,11 +45,11 @@ const Home = () => {
     <>
       <Head>
         <title>Monitoring</title>
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='manifest' href='/manifest.json' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <main
-        className="container mx-auto py-4"
+        className='container mx-auto py-4'
         style={{ maxWidth: '576px', minWidth: '320px' }}
       >
         <SocketConection />
@@ -58,12 +58,12 @@ const Home = () => {
           loading ? (
             <AppLoader show={true} />
           ) : (
-            <div className="list-group">
+            <div className='list-group'>
               <TurnOffAll />
               <UnlockAllDisks devices={devices} />
               <DeviceUi devices={devices} />
               <UpdateButton />
-              <div className="d-flex justify-between align-items-center gap-2 w-100">
+              <div className='d-flex justify-between align-items-center gap-2 w-100'>
                 <div style={{ flex: 4 }}>
                   <Auth />
                 </div>
