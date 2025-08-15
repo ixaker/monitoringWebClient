@@ -19,7 +19,7 @@ export const sendAuthData = async (data, setShow, setButtonDisabled) => {
     }
 
     const responseData = await response.json();
-    console.log(responseData);
+    console.log('responseData', responseData);
 
     if (responseData.access_token) {
       localStorage.setItem('token', responseData.access_token);
