@@ -15,7 +15,9 @@ const SocketConection = ({}) => {
   let tokenFromStore = useSelector((state) => state.token.token);
   let tokenFromLocal;
   const dotenv_domain = process.env.NEXT_PUBLIC_DOTENV_DOMAIN;
-  const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT;
+  const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT
+    ? parseInt(process.env.NEXT_PUBLIC_DOTENV_API_PORT, 10)
+    : 443;
 
   if (typeof window !== 'undefined') {
     tokenFromLocal = localStorage.getItem('token');

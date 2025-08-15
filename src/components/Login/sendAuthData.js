@@ -1,6 +1,8 @@
 export const sendAuthData = async (data, setShow, setButtonDisabled) => {
   const dotenv_domain = process.env.NEXT_PUBLIC_DOTENV_DOMAIN;
-  const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT;
+  const dotenv_port = process.env.NEXT_PUBLIC_DOTENV_API_PORT
+    ? parseInt(process.env.NEXT_PUBLIC_DOTENV_API_PORT, 10)
+    : 443;
   try {
     const response = await fetch(
       `https://${dotenv_domain}:${dotenv_port}/login`,
